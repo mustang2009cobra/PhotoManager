@@ -1,0 +1,27 @@
+1. Create users (stored in DB)
+2. Login and logout as users
+3. Upload media files (images, videos, audio)
+    -Files are either public or private
+        -If public, they are visible in the "Rate" tab
+        -If private, they are only visible to the user in their files tab
+    -Files have tags (user-added)
+    -Accepted image types: all
+    -Accepted video types: flash, mp4, wmv, mov
+    -Accepted audio types: mp3
+4. View image files (via modal)
+5. Preview audio and video files (via modal)
+6. Download files
+7. Bulk download of multiple files
+8. Multiple file upload
+9. File manager
+    -Multiple folder levels
+    -Preview player
+    -Drag and drop
+    -Search for files by various fields
+        -Name
+        -Tags
+        -File type
+    -Make files public or private
+10. Provide API for following funtions:
+    -Upload file
+    -Download file

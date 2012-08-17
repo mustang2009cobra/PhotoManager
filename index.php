@@ -42,7 +42,6 @@
             <span class="icon-bar"></span>
           </a>
           <a class="brand" href="#">Photo Manager</a>
-          <!-- Don't enable this for now until we get more complex stuff
           <div class="btn-group pull-right">
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
               <i class="icon-user"></i> dsw88
@@ -54,15 +53,12 @@
               <li><a href="#">Sign Out</a></li>
             </ul>
           </div>
-          -->
-          <!-- Don't enable this for now until we get more complex stuff
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li class="active"><a id="myFilesPageLink">My Media</a></li>
+              <li><a id="rateFilesPageLink">Rate Media</a></li>
             </ul>
-          </div>-->
+          </div>
           <!--/.nav-collapse -->
         </div>
       </div>
@@ -72,95 +68,18 @@
     <!----------------------------------ALERTS---------------------------------->
     <!-------------------------------------------------------------------------->
     <div class="container-fluid">
-        <div id="alertArea" class="row-fluid"> <!-- OnError alert -->
-            
+        <div id="alertArea" class="row-fluid">
+            <!--Alerts are rendered using JS templating-->
         </div>
-        
     </div>
     
     
     <!-------------------------------------------------------------------------->
     <!--------------------------MAIN PAGE CONTENT------------------------------->
     <!-------------------------------------------------------------------------->
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <?php
-        /*
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Sidebar</li>
-              <li class="active"><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="nav-header">Sidebar</li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="nav-header">Sidebar</li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-         */
-        ?>
-        <div class="span12">
-            <div class="row-fluid">
-                <div class="span3">
-                    <img src="download/photoDownload.php?fileId=98e63380-P8zH-zPw4-s0v5-Fg876def4490">
-                </div>
-                <div class="span9">
-                    <div class="hero-unit">
-                        <h1>Welcome!</h1>
-                        <p>PhotoManager is a simple way to upload and share your files online.</p>
-                        <p><a class="btn btn-primary btn-large" data-toggle="modal" href="#uploadImageDialog">Upload an image &raquo;</a></p>
-                    </div>
-                </div>
-            </div>
-        </div><!--/span-->
-      </div><!--/row-->
-
-      <hr>
-
-      <footer>
-        <p>&copy; FineWoods 2012</p>
-      </footer>
-
+    <div id="mainContent" class="container-fluid">
+        
     </div><!--/.fluid-container-->
-    
-    <!-------------------------------------------------------------------------->
-    <!----------------------------------MODALS---------------------------------->
-    <!-------------------------------------------------------------------------->
-    <div class="modal hide" id="uploadImageDialog">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">x</button>
-            <h3>Upload File</h3>
-        </div>
-        <div class="modal-body">
-            <form id="file_upload_form" method="post" enctype="multipart/form-data" action="upload/photoUpload.php"
-                <p>
-                    <label id="photoInput_label" for="photoInput" class=" ">Select a file</label>
-                    <input class="photoInput" name="file" type="file" />
-                </p>
-                <p>
-                    <textarea id="photoDescription" rows="5" cols="10" name="photoDescription"></textarea>
-                </p>
-                <!--<input type="hidden" id="enrollmentidFormField" name="enrollmentid" />-->
-                <input id="photo-upload-submit-btn" class="hidden" type="submit" value="photoUploadSubmit">
-                <iframe id="upload_target" name="upload_target" src="" style="width:0;height:0;border:0px solid #fff;"></iframe>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <a class="btn" data-dismiss="modal">Close</a>
-            <a id="uploadImageButton" class="btn btn-primary">Upload</a>
-        </div>
-    </div>
 
     <!-- Le javascript
     ================================================== -->
@@ -172,6 +91,79 @@
             <h4><%= header %></h4>
             <p><%= message %></p>
         </div>
+    </script>
+    
+    <script type="text/template" class="rateFilesTemplate">
+        Hello World!
+    </script>
+    
+    <script type="text/template" class="myFilesTemplate">
+        <div class="row-fluid">
+            <div class="btn-group">
+                <button class="btn btn-primary addFile">Add File</button>
+                <!-- <button class="btn btn-primary addFolder">Add Folder</button> -->
+            </div>
+        </div><!--/row-->
+        <div class="row-fluid">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Dimensions
+                        </th>
+                        <th>
+                            Duration
+                        </th>
+                        <th>
+                            Modified
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+
+        <!-------------------------------------------------------------------------->
+        <!----------------------------------MODALS---------------------------------->
+        <!-------------------------------------------------------------------------->
+        <div class="modal hide" id="uploadImageDialog">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">x</button>
+                <h3>Upload File</h3>
+            </div>
+            <div class="modal-body">
+                <form id="file_upload_form" method="post" enctype="multipart/form-data" action="upload/photoUpload.php"
+                    <p>
+                        <label id="photoInput_label" for="photoInput" class=" ">Select a file</label>
+                        <input class="photoInput" name="file" type="file" />
+                    </p>
+                    <p>
+                        <textarea id="photoDescription" rows="5" cols="10" name="photoDescription"></textarea>
+                    </p>
+                    <!--<input type="hidden" id="enrollmentidFormField" name="enrollmentid" />-->
+                    <input id="photo-upload-submit-btn" class="hidden" type="submit" value="photoUploadSubmit">
+                    <iframe id="upload_target" name="upload_target" src="" style="width:0;height:0;border:0px solid #fff;"></iframe>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a class="btn" data-dismiss="modal">Close</a>
+                <a id="uploadImageButton" class="btn btn-primary">Upload</a>
+            </div>
+        </div>
+        
+        <hr>
+
+        <footer>
+            <p>&copy; FineWoods 2012</p>
+        </footer>
     </script>
     
     <!-- Placed at the end of the document so the pages load faster -->
@@ -191,14 +183,61 @@
     <script src="js/bootstrap-typeahead.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
-            $('#uploadImageButton').click(function(){
+            renderMyFiles();
+            
+            $('#uploadImageButton').live('click', function(){
                 //Hide the submit button so they can't click twice
                 document.getElementById('file_upload_form').target = 'upload_target';
                 document.forms['file_upload_form'].submit();
                 document.getElementById("upload_target").onload = photoUploadDone;
-                //$('#photo-upload-submit-btn').click();
+            });
+            
+            $("#rateFilesPageLink").live('click', function(){
+                $("#rateFilesPageLink").parent().addClass('active');
+                $("#myFilesPageLink").parent().removeClass('active');
+                renderRateMedia();
+            });
+            
+            $("#myFilesPageLink").live('click', function(){
+                $("#rateFilesPageLink").parent().removeClass('active');
+                $("#myFilesPageLink").parent().addClass('active');
+                renderMyFiles();
             });
         });
+        
+        /**
+         * Compiles the "Rate Media" html template, then ajaxes all the data for the screen
+         */
+        function renderRateMedia(){
+            var rateFilesOptions = {}; //No options yet, maybe later
+            
+            //Get html template and wrap in underscores template
+            var compiledRateFilesPage = _.template(
+                $("script.rateFilesTemplate").html()
+            );
+            
+            //Compile template using options that came in
+            $("#mainContent").html(compiledRateFilesPage(rateFilesOptions));
+        }
+        
+        /**
+         * Compiles the "My Files
+         */
+        function renderMyFiles(){
+            var myFilesOptions = {}; //No options yet, maybe later
+            
+            //Get html template and wrap in underscores template
+            var compiledMyFilesPage = _.template(
+                $("script.myFilesTemplate").html()
+            );
+            
+            //Compile template using options that came in
+            $("#mainContent").html(compiledMyFilesPage(myFilesOptions));
+            
+            $(".addFile").click(function(){
+               $("#uploadImageDialog").modal(); 
+            });
+        }
         
         function photoUploadDone(){
             var ret = frames['upload_target'].document.getElementsByTagName("p")[0].innerHTML;
