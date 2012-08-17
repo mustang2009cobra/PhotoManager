@@ -1,0 +1,29 @@
+/* 
+    Document   : photo-manager
+    Created on : Aug 17, 2012, 12:46:55 PM
+    Author     : David Woodruff <dswoodruff88@gmail.com>
+    Description: Styling for the PhotoManager web application
+*/
+
+/*************************************************************************/
+/*Bootstrap styling to keep content below abolutely positioned bar at top*/
+/*************************************************************************/
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+.sidebar-nav {
+    padding: 9px 0;
+}
+
+/*************************************************************************/
+/***************Photo Manager application styling*************************/
+/*************************************************************************/
+textarea
+{
+    border:1px solid #999999;
+    width:100%;
+    margin:5px 0;
+    padding:3px;
+}
+

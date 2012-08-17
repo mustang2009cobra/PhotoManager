@@ -9,14 +9,9 @@
 
     <!-- Le styles -->
     <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/photo-manager.css" rel="stylesheet">
     <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-      .sidebar-nav {
-        padding: 9px 0;
-      }
+      
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -107,7 +102,7 @@
                     <div class="hero-unit">
                         <h1>Welcome!</h1>
                         <p>Hero unit about creating an account and uploading images</p>
-                        <p><a class="btn btn-primary btn-large">Upload an image &raquo;</a></p>
+                        <p><a class="btn btn-primary btn-large" data-toggle="modal" href="#uploadImageDialog">Upload an image &raquo;</a></p>
                     </div>
                 </div>
             </div>
@@ -121,12 +116,37 @@
       </footer>
 
     </div><!--/.fluid-container-->
+    
+    <div class="modal hide" id="uploadImageDialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">x</button>
+            <h3>Modal header</h3>
+        </div>
+        <div class="modal-body">
+            <form id="file_upload_form" method="post" enctype="multipart/form-data" action="upload/photoUpload.php"
+                <p>
+                    <label id="photoInput_label" for="photoInput" class=" ">Select a file</label>
+                    <input class="photoInput" name="file" type="file" />
+                </p>
+                <p>
+                    <textarea id="photoDescription" rows="15" cols="500" name="photoDescription"></textarea>
+                </p>
+                <!--<input type="hidden" id="enrollmentidFormField" name="enrollmentid" />-->
+                <input id="photo-upload-submit-btn" class="hidden" type="submit" value="photoUploadSubmit">
+                <iframe id="upload_target" name="upload_target" src="" style="width:0;height:0;border:0px solid #fff;"></iframe>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <a class="btn" data-dismiss="modal">Close</a>
+            <a id="uploadImageButton" class="btn btn-primary">Upload</a>
+        </div>
+    </div>
 
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="js/jquery-1.8.0.js"></script>
-    <script src="js/bootstrap-transition.js"></script>
+    <!--<script src="js/bootstrap-transition.js"></script>-->
     <script src="js/bootstrap-alert.js"></script>
     <script src="js/bootstrap-modal.js"></script>
     <script src="js/bootstrap-dropdown.js"></script>
@@ -138,6 +158,15 @@
     <script src="js/bootstrap-collapse.js"></script>
     <script src="js/bootstrap-carousel.js"></script>
     <script src="js/bootstrap-typeahead.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#uploadImageButton').click(function(){
+                alert("Herloo");
+            });
+        });
+        
+        
+    </script>
 
   </body>
 </html>
