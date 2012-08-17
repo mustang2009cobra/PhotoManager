@@ -1,7 +1,7 @@
 <?php
-
+require_once("../inc/defines.php");
 require_once("../util/UID.php");
-define("STORAGE_PATH", "C:/wamp/www/localstorage/photoManagerFiles");
+
 
 /*
  * Script here for uploading the file
