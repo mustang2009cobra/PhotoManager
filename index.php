@@ -78,11 +78,8 @@
     <!--------------------------MAIN PAGE CONTENT------------------------------->
     <!-------------------------------------------------------------------------->
     <div id="mainContent" class="container-fluid">
-        
+        <!-- PAGE CONTENT WILL BE RENDERED HERE, VIA TEMPLATES FROM AJAX CALLS -->
     </div><!--/.fluid-container-->
-
-    <!-- Le javascript
-    ================================================== -->
     
     <!-- Template for application alert dialogs -->
     <script type="text/template" class="alertTemplate">
@@ -93,77 +90,14 @@
         </div>
     </script>
     
-    <script type="text/template" class="rateFilesTemplate">
-        Hello World!
-    </script>
-    
-    <script type="text/template" class="myFilesTemplate">
-        <div class="row-fluid">
-            <div class="btn-group">
-                <button class="btn btn-primary addFile">Add File</button>
-                <!-- <button class="btn btn-primary addFolder">Add Folder</button> -->
-            </div>
-        </div><!--/row-->
-        <div class="row-fluid">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Description
-                        </th>
-                        <th>
-                            Dimensions
-                        </th>
-                        <th>
-                            Duration
-                        </th>
-                        <th>
-                            Modified
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                </tbody>
-            </table>
-        </div>
-
-        <!-------------------------------------------------------------------------->
-        <!----------------------------------MODALS---------------------------------->
-        <!-------------------------------------------------------------------------->
-        <div class="modal hide" id="uploadImageDialog">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">x</button>
-                <h3>Upload File</h3>
-            </div>
-            <div class="modal-body">
-                <form id="file_upload_form" method="post" enctype="multipart/form-data" action="upload/photoUpload.php"
-                    <p>
-                        <label id="photoInput_label" for="photoInput" class=" ">Select a file</label>
-                        <input class="photoInput" name="file" type="file" />
-                    </p>
-                    <p>
-                        <textarea id="photoDescription" rows="5" cols="10" name="photoDescription"></textarea>
-                    </p>
-                    <!--<input type="hidden" id="enrollmentidFormField" name="enrollmentid" />-->
-                    <input id="photo-upload-submit-btn" class="hidden" type="submit" value="photoUploadSubmit">
-                    <iframe id="upload_target" name="upload_target" src="" style="width:0;height:0;border:0px solid #fff;"></iframe>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a class="btn" data-dismiss="modal">Close</a>
-                <a id="uploadImageButton" class="btn btn-primary">Upload</a>
-            </div>
-        </div>
-        
-        <hr>
-
-        <footer>
-            <p>&copy; FineWoods 2012</p>
-        </footer>
+    <script type="text/template" id="fileTemplate">
+        <tr>
+            <td class="fileName"><%= name %></td>
+            <td class="fileDescription"><%= description %></td>
+            <td class="fileDimensions"><%= dimensions %></td>
+            <td class="fileDuration"><%= duration %></td>
+            <td class="fileModified"><%= modified %></td>
+        </tr>
     </script>
     
     <!-- Placed at the end of the document so the pages load faster -->
@@ -182,6 +116,68 @@
     <script src="js/bootstrap-carousel.js"></script>
     <script src="js/bootstrap-typeahead.js"></script>
     <script type="text/javascript">
+        
+        var PHOTO_MANAGER = { }; //JS namespace for photo manager application
+        
+        /******************BACKBONE MODEL/COLLECTION DEFINES*******************/
+        var File = Backbone.Model.extend({
+            initialize: function(){ //Maybe don't need anything here
+                this.bind("change:name", function(){
+                    alert("NAME CHANGED! Should save here or something")
+                });
+            },
+            validate: function( attributes ){
+                //Any validation code goes here before things are saved or set
+            }
+        });
+        
+        var Files = Backbone.Collection.extend({
+            model: File
+        });
+        
+        var FileView = Backbone.View.extend({
+            tagName: "tr",
+            className: "file",
+            template: $("#fileTemplate").html(),
+            
+            render: function(){
+                var tmpl = _.template(this.template);
+                
+                this.$el.html(tmpl(this.model.toJSON()));
+                return this;
+            }
+        });
+        
+        var FilesView = Backbone.View.extend({
+           el: $("#filesTableBody"),
+           
+           initialize: function(files){ //When created, the collection passed in will be the collection for the Files View
+               
+               this.collection = new Files(files);
+               console.log(this.collection);
+               this.render();
+           },
+           
+           render: function(){
+               var that = this;
+               _.each(this.collection.models, function(file){ //For each model in the collection:
+                   that.renderFile(file); //Render the file element
+               }, this);
+           },
+           
+           renderFile: function(file){
+               var fileView = new FileView({ //Create new FileView, passing the file as its model
+                   model: file
+               });
+               this.$el.append(fileView.render().el); //Apend rendered file to the files table
+           }
+           
+        });
+        
+        
+        
+        /*****************************JS FUNCTIONS*****************************/
+        
         $(document).ready(function(){
             renderMyFiles();
             
@@ -206,39 +202,82 @@
         });
         
         /**
-         * Compiles the "Rate Media" html template, then ajaxes all the data for the screen
+         * Compiles the "Rate Media" html template, gotten via ajax call
          */
         function renderRateMedia(){
-            var rateFilesOptions = {}; //No options yet, maybe later
-            
-            //Get html template and wrap in underscores template
-            var compiledRateFilesPage = _.template(
-                $("script.rateFilesTemplate").html()
+            //Get the HTML template
+            $.post("ajax/filesAjax.php", //Url
+                { //Data
+                    funcName : "getRateMediaTemplate"
+                },
+                function(data){ //On success
+                    var rateFilesOptions = {}; //No options yet, maybe later
+                    
+                    //Wrap template in underscore templating function
+                    var compiledRateFilesPage = _.template(data);
+                    
+                    //Compile template using options
+                    $("#mainContent").html(compiledRateFilesPage(rateFilesOptions));
+                }
             );
-            
-            //Compile template using options that came in
-            $("#mainContent").html(compiledRateFilesPage(rateFilesOptions));
         }
         
         /**
-         * Compiles the "My Files
+         * Compiles the "My Files html template, gotten via ajax call
          */
         function renderMyFiles(){
-            var myFilesOptions = {}; //No options yet, maybe later
-            
-            //Get html template and wrap in underscores template
-            var compiledMyFilesPage = _.template(
-                $("script.myFilesTemplate").html()
+            //Get the HTML template
+            $.post("ajax/filesAjax.php", //Url
+                { //Data
+                    funcName : "getMyFilesTemplate"
+                },
+                function(data){ //On success
+                    var myFilesOptions = {}; //No options yet, maybe later
+                    
+                    //Wrap template in underscore templating function
+                    var compiledMyFilesPage = _.template(data);
+                    
+                    //Compile template using options
+                    $("#mainContent").html(compiledMyFilesPage(myFilesOptions));
+                    
+                    $(".addFile").click(function(){
+                        $("#uploadImageDialog").modal(); 
+                    });
+                    
+                    getFiles();
+                }
             );
-            
-            //Compile template using options that came in
-            $("#mainContent").html(compiledMyFilesPage(myFilesOptions));
-            
-            $(".addFile").click(function(){
-               $("#uploadImageDialog").modal(); 
-            });
         }
         
+        /**
+         * Gets all files for a given user
+         */ 
+        function getFiles(){
+            $.post("ajax/filesAjax.php",
+                {
+                    funcName: "getFiles"
+                },
+                function(data){
+                    var files = $.parseJSON(data);
+                    
+                    var file = files;
+                    
+                    var array = [ file ];
+                    
+                    
+                    var filesView = new FilesView(array);
+                    
+                    //Hide loader
+                    $("#ajaxLoadingBar").remove();
+                }
+            );
+            
+            
+        }
+        
+        /**
+         * Function called when a file upload is complete
+         */ 
         function photoUploadDone(){
             var ret = frames['upload_target'].document.getElementsByTagName("p")[0].innerHTML;
             
