@@ -6,7 +6,15 @@
  * @author dsw88
  */
 class DBClient {
-    //put your code here
+	//Public vars go here
+	
+    public __construct(){
+		
+	}
+	
+	//Public functions go here
+	
+	//Private functions go here
 }
 
 ?>
