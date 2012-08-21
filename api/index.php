@@ -32,7 +32,19 @@ switch($resource){
         echo $template;
         break;
     case "rateMediaTemplate":
-        getRateMediaTemplate($callData);
+        $filePath = '../views/templates/RateFiles.html';
+        $template = file_get_contents($filePath);
+        echo $template;
+        break;
+    case "fileTemplate":
+        $filePath = '../views/templates/File.html';
+        $template = file_get_contents($filePath);
+        echo $template;
+        break;
+    case "alertTemplate":
+        $filePath = '../views/templates/Alert.html';
+        $template = file_get_contents($filePath);
+        echo $template;
         break;
     default:
         throw new Exception("Invalid function specified");
@@ -58,28 +70,6 @@ function getFiles($data){
     );
     
     echo json_encode($model);
-}
-
-/**
- * Returns the HTML template for the "Rate Media" page
- * 
- * @param Array $data Any data required by this function
- */
-function getRateMediaTemplate($data){
-    ?>
-    
-    <?php
-}
-
-/**
- * Returns the HTML template for the "My Files" page
- * 
- * @param Array $data Any data required by this function
- */
-function getMyFilesTemplate($data){
-    ?>
-    
-    <?php
 }
 
 ?>

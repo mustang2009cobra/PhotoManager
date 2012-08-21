@@ -83,41 +83,32 @@
     
     <!-- Template for application alert dialogs -->
     <script type="text/template" class="alertTemplate">
-        <div class="alert alert-<%= type %>">
-            <a class="close" data-dismiss="alert">x</a>
-            <h4><%= header %></h4>
-            <p><%= message %></p>
-        </div>
+        
     </script>
     
     <script type="text/template" id="fileTemplate">
-        <tr>
-            <td class="fileName"><%= name %></td>
-            <td class="fileDescription"><%= description %></td>
-            <td class="fileDimensions"><%= dimensions %></td>
-            <td class="fileDuration"><%= duration %></td>
-            <td class="fileModified"><%= modified %></td>
-        </tr>
+        
     </script>
     
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/jquery-1.8.0.js"></script>
-    <script src="js/underscore.js"></script>
-    <script src="js/backbone.js"></script>
-    <script src="js/bootstrap-alert.js"></script>
-    <script src="js/bootstrap-modal.js"></script>
-    <script src="js/bootstrap-dropdown.js"></script>
-    <script src="js/bootstrap-scrollspy.js"></script>
-    <script src="js/bootstrap-tab.js"></script>
-    <script src="js/bootstrap-tooltip.js"></script>
-    <script src="js/bootstrap-popover.js"></script>
-    <script src="js/bootstrap-button.js"></script>
-    <script src="js/bootstrap-collapse.js"></script>
-    <script src="js/bootstrap-carousel.js"></script>
-    <script src="js/bootstrap-typeahead.js"></script>
+    <script src="utils/jquery-1.8.0.js"></script>
+    <script src="utils/underscore.js"></script>
+    <script src="utils/backbone.js"></script>
+    <script src="utils/bootstrap-alert.js"></script>
+    <script src="utils/bootstrap-modal.js"></script>
+    <script src="utils/bootstrap-dropdown.js"></script>
+    <script src="utils/bootstrap-scrollspy.js"></script>
+    <script src="utils/bootstrap-tab.js"></script>
+    <script src="utils/bootstrap-tooltip.js"></script>
+    <script src="utils/bootstrap-popover.js"></script>
+    <script src="utils/bootstrap-button.js"></script>
+    <script src="utils/bootstrap-collapse.js"></script>
+    <script src="utils/bootstrap-carousel.js"></script>
+    <script src="utils/bootstrap-typeahead.js"></script>
     <script type="text/javascript">
         
         var PHOTO_MANAGER = { }; //JS namespace for photo manager application
+        var PHOTO_MANAGER.Templates = { }; //Empty object for templates ajaxed from API
         
         /******************BACKBONE MODEL/COLLECTION DEFINES*******************/
         var File = Backbone.Model.extend({
@@ -206,6 +197,7 @@
          */
         function renderRateMedia(){
             //Get the HTML template
+            
             $.post("api/", //Url
                 { //Data
                     resource : "rateMediaTemplate"
@@ -320,6 +312,15 @@
             
             //Compile template using options that came in
             $("#alertArea").html(compiledAlert(options));
+        }
+        
+        function isset(object){
+            if(typeof object != 'undefined'){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
         
     </script>
