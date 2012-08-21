@@ -24,6 +24,20 @@ else{ $callData = ""; }
 
 //Call ajax function specified
 switch($resource){
+    case "templates": //Gets all templates at once
+        $dirPath = '../views/templates/';
+        if(is_dir($dirPath)) {
+            if($dh = opendir($dirPath)) {
+            while($file = readdir($dh)) {
+                if($file == '.' || $file == '..') { continue; }
+                //echo "filename: " . $file . " : filetype: " . filetype($dirPath . $file) . "<br />";
+                $templates[basename($dirPath . $file, ".html")] = file_get_contents($dirPath . $file);
+            }
+            closedir($dh);
+            }
+            echo json_encode($templates);
+        }
+        break;
     case "files":
         getFiles($callData);
         break;
