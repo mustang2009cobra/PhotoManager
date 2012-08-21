@@ -7,20 +7,17 @@
     <meta name="description" content="A simple photo manager site">
     <meta name="author" content="David Woodruff">
 
-    <!-- Le styles -->
+    <!-- STYLES -->
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/photo-manager.css" rel="stylesheet">
-    <style type="text/css">
-      
-    </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <!-- Le fav and touch icons -->
+    <!-- FAVICON AND TOUCH ICONS -->
     <link rel="shortcut icon" href="img/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/apple-touch-icon-114-precomposed.png">
@@ -95,6 +92,7 @@
     </script>
     
     <!-- Placed at the end of the document so the pages load faster -->
+    <!-- LIBARIES -->
     <script src="lib/jquery-1.8.0.js"></script>
     <script src="lib/underscore.js"></script>
     <script src="lib/backbone.js"></script>
@@ -110,6 +108,15 @@
     <script src="lib/bootstrap-carousel.js"></script>
     <script src="lib/bootstrap-typeahead.js"></script>
     <script src="js/utils.js"></script>
+    <!-- MODELS -->
+    
+    <!-- COLLECTIONS -->
+    <!-- VIEWS -->
+    
+    <!-- MAIN -->
+    <script src="router.js"></script>
+    <script src="main.js"></script>
+    
     <script type="text/javascript">
         
         var PHOTO_MANAGER = { }; //JS namespace for photo manager application
