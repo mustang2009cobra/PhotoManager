@@ -1,5 +1,6 @@
 <?php
 
+require_once("utils/DB.php");
 /**
  * filesAjax.php
  *  Ajax file that contains functions called by UI ajax code
@@ -60,16 +61,11 @@ switch($resource){
  * @param Array $data Any data required by this function
  */
 function getFiles($data){
-    $model = array(
-        'id' => "SOMEID",
-        'name' => "SOMENAME",
-        'description' => "SOMEDESCRIPTION",
-        'dimensions' => "DIMENSIONS",
-        'duration' => "DURATION",
-        'modified' => "LAST MODIFIED"
-    );
+    $dbh = new DB();
     
-    echo json_encode($model);
+    $files = $dbh->selectAllRows('files');
+    
+    echo json_encode($files);
 }
 
 ?>

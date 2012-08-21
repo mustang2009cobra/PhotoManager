@@ -1,7 +1,7 @@
 <?php
 require_once("../inc/defines.php");
 require_once("../util/UID.php");
-require_once("../models/file/FileModel.php");
+require_once('../api/utils/DB.php');
 
 /*
  * Script here for uploading the file
@@ -24,6 +24,8 @@ $description = $_POST['photoDescription'];
 $uid = GuidGenerator::Create();
 $fileId = GuidGenerator::toGuid($uid);
 
+$fileType = getFileType($mimeType);
+
 //Set the file path for where the file will be stored (currently all sits in one folder, that will change as we add users)
 $fileStorageDir = STORAGE_PATH;
 $filePath = $fileStorageDir. "/" . $fileId;
@@ -38,30 +40,40 @@ if(!$moveSuccess){
 }
 
 $now = time();
+$owner = '757204282';
 
-//Create file model
-$file = new FileModel();
-$file->setName($fileName);
-$file->setDescription($description);
-$file->setCreated($now);
-$file->setModified($now);
-$file->setMimeType($mimeType);
-$file->setSize($fileSize);
+//TODO - Analyze file with GetID3 to get file width, height, and duration
 
-//Set ownerid and createdby and modifiedby once we get users up and running
-//Use GetID3 to find duration, height, and width
+//Add file to the database
+$file = array();
+$file['FileID'] = $fileId;
+$file['Name'] = $fileName;
+$file['OwnerID'] = $owner; //TODO - Replace this with real owner information
+$file['Created'] = $now;
+$file['CreatedBy'] = $owner;
+$file['Modified'] = $now;
+$file['ModifiedBy'] = $owner;
+$file['Description'] = $description;
+$file['MimeType'] = $mimeType;
+$file['Size'] = $fileSize;
+$file['Type'] = $fileType;
+$file['Width'] = -1;
+$file['Height'] = -1;
+$file['Duration'] = -1;
 
-//Save to database
-$saveSuccess = $file->save();
+$dbh = new DB();
+$result = $dbh->insert('files', $file);
 
-if($saveSuccess){
-    echo "UPLOAD_COMPLETE";
-}
-else{
-    unset($filePath); //Delete stored file that was there
+if($result != 1){
     echo "SAVE_TO_DATABASE_FAILED";
 }
-
+else{
+    echo "UPLOAD_COMPLETE";
+}
 
 echo "</p>";
+
+function getFileType($mimeType){
+    return "miscellaneous"; //Implement later
+}
 ?>

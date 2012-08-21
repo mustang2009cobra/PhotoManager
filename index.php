@@ -83,7 +83,11 @@
     
     <!-- Template for application alert dialogs -->
     <script type="text/template" class="alertTemplate">
-        
+        <div class="alert alert-<%= type %>">
+            <a class="close" data-dismiss="alert">x</a>
+            <h4><%= header %></h4>
+            <p><%= message %></p>
+        </div>
     </script>
     
     <script type="text/template" id="fileTemplate">
@@ -105,10 +109,11 @@
     <script src="utils/bootstrap-collapse.js"></script>
     <script src="utils/bootstrap-carousel.js"></script>
     <script src="utils/bootstrap-typeahead.js"></script>
+    <script src="js/utils.js"></script>
     <script type="text/javascript">
         
         var PHOTO_MANAGER = { }; //JS namespace for photo manager application
-        var PHOTO_MANAGER.Templates = { }; //Empty object for templates ajaxed from API
+        PHOTO_MANAGER.Templates = { }; //Empty object for templates ajaxed from API
         
         /******************BACKBONE MODEL/COLLECTION DEFINES*******************/
         var File = Backbone.Model.extend({
@@ -170,7 +175,7 @@
         /*****************************JS FUNCTIONS*****************************/
         
         $(document).ready(function(){
-            renderMyFiles();
+            displayMyFiles();
             
             $('#uploadImageButton').live('click', function(){
                 //Hide the submit button so they can't click twice
@@ -182,63 +187,83 @@
             $("#rateFilesPageLink").live('click', function(){
                 $("#rateFilesPageLink").parent().addClass('active');
                 $("#myFilesPageLink").parent().removeClass('active');
-                renderRateMedia();
+                displayRateMedia();
             });
             
             $("#myFilesPageLink").live('click', function(){
                 $("#rateFilesPageLink").parent().removeClass('active');
                 $("#myFilesPageLink").parent().addClass('active');
-                renderMyFiles();
+                displayMyFiles();
             });
         });
         
         /**
-         * Compiles the "Rate Media" html template, gotten via ajax call
+         * Displays the "Rate Media" page
          */
-        function renderRateMedia(){
-            //Get the HTML template
-            
-            $.post("api/", //Url
-                { //Data
-                    resource : "rateMediaTemplate"
-                },
-                function(data){ //On success
-                    var rateFilesOptions = {}; //No options yet, maybe later
-                    
-                    //Wrap template in underscore templating function
-                    var compiledRateFilesPage = _.template(data);
-                    
-                    //Compile template using options
-                    $("#mainContent").html(compiledRateFilesPage(rateFilesOptions));
-                }
-            );
+        function displayRateMedia(){
+            //Get the HTML template from the API if we don't already have it stored locally
+            if(!isset(PHOTO_MANAGER.Templates.RateMedia)){
+                $.post("api/", //Url
+                    { //Data
+                        resource : "rateMediaTemplate"
+                    },
+                    function(data){ //On success
+
+                        //Wrap template in underscore templating function
+                        PHOTO_MANAGER.Templates.RateMedia = _.template(data);
+                        
+                        renderRateMedia();
+                    }
+                );
+            }
+            else{
+                renderRateMedia();
+            }
         }
         
         /**
-         * Compiles the "My Files html template, gotten via ajax call
+         * Compiles the HTML RateMedia template and sets in the main content body
+         */
+        function renderRateMedia(){
+            $("#mainContent").html(PHOTO_MANAGER.Templates.RateMedia());
+        }
+        
+        /**
+         * Displays the My Files page
+         */
+        function displayMyFiles(){
+            //Get the HTML template from the API if we don't already have it stored locally
+            if(!isset(PHOTO_MANAGER.Templates.MyFiles)){
+                $.post("api/", //Url
+                    { //Data
+                        resource : "myFilesTemplate"
+                    },
+                    function(data){ //On success
+
+                        //Wrap template in underscore templating function
+                        PHOTO_MANAGER.Templates.MyFiles = _.template(data);
+                        
+                        renderMyFiles();
+                    }
+                );
+            }
+            else{
+                renderMyFiles();
+            }
+            
+        }
+        
+        /**
+         * Compiles the HTML MyFiles template and sets it in the main content body
          */
         function renderMyFiles(){
-            //Get the HTML template
-            $.post("api/", //Url
-                { //Data
-                    resource : "myFilesTemplate"
-                },
-                function(data){ //On success
-                    var myFilesOptions = {}; //No options yet, maybe later
-                    
-                    //Wrap template in underscore templating function
-                    var compiledMyFilesPage = _.template(data);
-                    
-                    //Compile template using options
-                    $("#mainContent").html(compiledMyFilesPage(myFilesOptions));
-                    
-                    $(".addFile").click(function(){
-                        $("#uploadImageDialog").modal(); 
-                    });
-                    
-                    getFiles();
-                }
-            );
+            $("#mainContent").html(PHOTO_MANAGER.Templates.MyFiles());
+            
+            $(".addFile").click(function(){
+                $("#uploadImageDialog").modal(); 
+            });
+
+            getFiles();
         }
         
         /**
@@ -251,6 +276,7 @@
                 },
                 function(data){
                     var files = $.parseJSON(data);
+                    console.log(files);
                     
                     var file = files;
                     
@@ -312,15 +338,6 @@
             
             //Compile template using options that came in
             $("#alertArea").html(compiledAlert(options));
-        }
-        
-        function isset(object){
-            if(typeof object != 'undefined'){
-                return true;
-            }
-            else{
-                return false;
-            }
         }
         
     </script>
