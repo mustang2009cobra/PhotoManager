@@ -1,0 +1,71 @@
+<div class="row-fluid">
+    <div class="btn-group">
+        <button class="btn btn-primary addFile">Add File</button>
+        <!-- <button class="btn btn-primary addFolder">Add Folder</button> -->
+    </div>
+</div><!--/row-->
+<div class="row-fluid">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Dimensions
+                </th>
+                <th>
+                    Duration
+                </th>
+                <th>
+                    Modified
+                </th>
+            </tr>
+        </thead>
+        <tbody id="filesTableBody">
+        </tbody>
+    </table>
+    <div id="ajaxLoadingBar" class="span3">
+        <p>Loading...</p>
+        <div class="progress progress-striped active">
+            <div class="bar" style="width: 100%;"></div>
+        </div>
+    </div>
+</div>
+
+<!-------------------------------------------------------------------------->
+<!----------------------------------MODALS---------------------------------->
+<!-------------------------------------------------------------------------->
+<div class="modal hide" id="uploadImageDialog">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">x</button>
+        <h3>Upload File</h3>
+    </div>
+    <div class="modal-body">
+        <form id="file_upload_form" method="post" enctype="multipart/form-data" action="upload/photoUpload.php"
+            <p>
+                <label id="photoInput_label" for="photoInput" class=" ">Select a file</label>
+                <input class="photoInput" name="file" type="file" />
+            </p>
+            <p>
+                <textarea id="photoDescription" rows="5" cols="10" name="photoDescription"></textarea>
+            </p>
+            <!--<input type="hidden" id="enrollmentidFormField" name="enrollmentid" />-->
+            <input id="photo-upload-submit-btn" class="hidden" type="submit" value="photoUploadSubmit">
+            <iframe id="upload_target" name="upload_target" src="" style="width:0;height:0;border:0px solid #fff;"></iframe>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a class="btn" data-dismiss="modal">Close</a>
+        <a id="uploadImageButton" class="btn btn-primary">Upload</a>
+    </div>
+</div>
+
+<hr>
+
+<footer>
+    <p>&copy; FineWoods 2012</p>
+</footer>
