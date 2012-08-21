@@ -206,9 +206,9 @@
          */
         function renderRateMedia(){
             //Get the HTML template
-            $.post("ajax/filesAjax.php", //Url
+            $.post("api/", //Url
                 { //Data
-                    funcName : "getRateMediaTemplate"
+                    resource : "rateMediaTemplate"
                 },
                 function(data){ //On success
                     var rateFilesOptions = {}; //No options yet, maybe later
@@ -227,9 +227,9 @@
          */
         function renderMyFiles(){
             //Get the HTML template
-            $.post("ajax/filesAjax.php", //Url
+            $.post("api/", //Url
                 { //Data
-                    funcName : "getMyFilesTemplate"
+                    resource : "myFilesTemplate"
                 },
                 function(data){ //On success
                     var myFilesOptions = {}; //No options yet, maybe later
@@ -253,9 +253,9 @@
          * Gets all files for a given user
          */ 
         function getFiles(){
-            $.post("ajax/filesAjax.php",
+            $.post("api/",
                 {
-                    funcName: "getFiles"
+                    resource: "files"
                 },
                 function(data){
                     var files = $.parseJSON(data);

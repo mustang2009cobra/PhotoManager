@@ -14,24 +14,24 @@
  */
 
 //Get ajax function names to call (we require that all ajax calls be routed through a function)
-if(isset($_POST["funcName"])){ $funcName = $_POST["funcName"]; }
-else{ throw new Exception("Must specify a function to execute"); }
+if(isset($_POST["resource"])){ $resource = $_POST["resource"]; }
+else{ throw new Exception("Must specify a resource"); }
 
 //Get data sent to be passed to function call
 if(isset($_POST["callData"])){ $callData = $_POST["callData"]; }
 else{ $callData = ""; }
 
 //Call ajax function specified
-switch($funcName){
-    case "getFiles":
+switch($resource){
+    case "files":
         getFiles($callData);
         break;
-    case "getMyFilesTemplate":
+    case "myFilesTemplate":
         $filePath = '../views/templates/MyFiles.html';
         $template = file_get_contents($filePath);
         echo $template;
         break;
-    case "getRateMediaTemplate":
+    case "rateMediaTemplate":
         getRateMediaTemplate($callData);
         break;
     default:
