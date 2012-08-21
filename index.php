@@ -95,20 +95,20 @@
     </script>
     
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="utils/jquery-1.8.0.js"></script>
-    <script src="utils/underscore.js"></script>
-    <script src="utils/backbone.js"></script>
-    <script src="utils/bootstrap-alert.js"></script>
-    <script src="utils/bootstrap-modal.js"></script>
-    <script src="utils/bootstrap-dropdown.js"></script>
-    <script src="utils/bootstrap-scrollspy.js"></script>
-    <script src="utils/bootstrap-tab.js"></script>
-    <script src="utils/bootstrap-tooltip.js"></script>
-    <script src="utils/bootstrap-popover.js"></script>
-    <script src="utils/bootstrap-button.js"></script>
-    <script src="utils/bootstrap-collapse.js"></script>
-    <script src="utils/bootstrap-carousel.js"></script>
-    <script src="utils/bootstrap-typeahead.js"></script>
+    <script src="lib/jquery-1.8.0.js"></script>
+    <script src="lib/underscore.js"></script>
+    <script src="lib/backbone.js"></script>
+    <script src="lib/bootstrap-alert.js"></script>
+    <script src="lib/bootstrap-modal.js"></script>
+    <script src="lib/bootstrap-dropdown.js"></script>
+    <script src="lib/bootstrap-scrollspy.js"></script>
+    <script src="lib/bootstrap-tab.js"></script>
+    <script src="lib/bootstrap-tooltip.js"></script>
+    <script src="lib/bootstrap-popover.js"></script>
+    <script src="lib/bootstrap-button.js"></script>
+    <script src="lib/bootstrap-collapse.js"></script>
+    <script src="lib/bootstrap-carousel.js"></script>
+    <script src="lib/bootstrap-typeahead.js"></script>
     <script src="js/utils.js"></script>
     <script type="text/javascript">
         
