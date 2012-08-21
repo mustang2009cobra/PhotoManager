@@ -13,6 +13,10 @@ class Model {
      */
     protected $id;
     
+    public function getID(){
+		return $this->id;
+	}
+    
     public function create(Model $model){
         
     }

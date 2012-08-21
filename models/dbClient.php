@@ -8,9 +8,9 @@
 class DBClient {
 	//Public vars go here
 	
-    public __construct(){
+    public function __construct() {
 		
-	}
+    }
 	
 	//Public functions go here
 	

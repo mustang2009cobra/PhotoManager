@@ -1,14 +1,14 @@
 <?php
 
-require_once("../Mapper.php");
-require_once("../Model.php");
+//require_once("../Mapper.php");
+//require_once("../Model.php");
 
 /**
  * Model for Files
  *
  * @author dsw88
  */
-class FileModel extends Model {
+class FileModel {
      
     /**
      * Actual filename for the file
@@ -17,22 +17,10 @@ class FileModel extends Model {
     protected $name;
     
     /**
-     * Parent ID of the file (for when folders are implemented)
-     * @var string
-     */
-    protected $parentID;
-    
-    /**
      * Owner ID of the file (who created it)
      * @var string 
      */
     protected $ownerID;
-    
-    /**
-     * Whether the entry is a folder 
-     * @var boolean
-     */
-    protected $folder;
     
     /**
      * Description for the file
@@ -112,7 +100,142 @@ class FileModel extends Model {
      */
     protected $deletedBy;
     
-    
+    public function setName($name){
+		$this->name = $name;
+	}
+	
+	public function getName(){
+		return $this->name;
+	}
+	
+	public function setOwnerID($ownerID){
+		$this->ownerID = $ownerID;
+	}
+	
+	public function getOwnerID(){
+		return $this->ownerID;
+	}
+	
+	public function setDescription($description){
+		$this->description = $description;
+	}
+	
+	public function getDescription(){
+		return $this->description;
+	}
+	
+	public function setMimeType($mimeType){
+		$this->mimeType = $mimeType;
+	}
+	
+	public function getMimeType(){
+		return $this->mimeType;
+	}
+	
+	public function setType($type){
+		$this->type = $type;
+	}
+	
+	public function getType(){
+		return $this->type;
+	}
+	
+	public function setSize($size){
+		$this->size = $size;
+	}
+	
+	public function getSize(){
+		return $this->size;
+	}
+	
+	public function setWidth($width){
+		$this->width = $width;
+	}
+	
+	public function getWidth(){
+		return $this->width;
+	}
+	
+	public function setHeight($height){
+		$this->height = $height;
+	}
+	
+	public function getHeight(){
+		return $this->height;
+	}
+	
+	public function setDuration($duration){
+		$this->duration = $duration;
+	}
+	
+	public function getDuration(){
+		return $this->duration;
+	}
+	
+	public function setCreated($created){
+		$this->created = $created;
+	}
+	
+	public function getCreated(){
+		return $this->created;
+	}
+	
+	public function setCreatedBy($createdBy){
+		$this->createdBy = $createdBy;
+	}
+	
+	public function getCreatedBy(){
+		return $this->createdBy;
+	}
+	
+	public function setModified($modified){
+		$this->modified = $modified;
+	}
+	
+	public function getModified(){
+		return $this->modified;
+	}
+	
+	public function setModifiedBy($modifiedBy){
+		$this->modifiedBy = $modifiedBy;
+	}
+	
+	public function getModifiedBy(){
+		return $this->modifiedBy;
+	}
+	
+	public function setDeleted($deleted){
+		$this->deleted = $deleted;
+	}
+	
+	public function getDeleted(){
+		return $this->deleted;
+	}
+	
+	public function setDeletedBy($deletedBy){
+		$this->deletedBy = $deletedBy;
+	}
+	
+	public function getDeletedBy(){
+		return $this->deletedBy;
+	}
+	
+	public function save(){
+		if(isset($this->id)){ //Update existing file
+			
+		}
+		else{ //New file
+			
+		}
+	}
+	
+	public function remove(){
+		
+	}
+	
+	public static function find(){
+		
+	}
 }
 
 ?>
