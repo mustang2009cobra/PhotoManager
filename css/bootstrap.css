@@ -1621,8 +1621,8 @@ table {
   background-color: #f9f9f9;
 }
 
-.table tbody tr:hover td,
-.table tbody tr:hover th {
+.table tbody tr:not(.selected):hover td,
+.table tbody tr:not(.selected):hover th {  /*EDIT DAVID - Added hover issue */
   background-color: #f5f5f5;
 }
 

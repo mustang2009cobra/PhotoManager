@@ -68,6 +68,7 @@ class DB {
     private function query($query){
         try{
             $resultSet = array();
+            
             foreach($this->dbh->query($query) as $row){
                 $resultSet[] = $row;
             }
@@ -94,7 +95,7 @@ class DB {
     public function selectRows($table, $rows){
         $selectStatement = "SELECT * FROM $table WHERE";
         foreach($rows as $key => $value){
-            $selectStatement .= " $key=$value";
+            $selectStatement .= " $key='$value'";
         }
         return $this->query($selectStatement);
     }

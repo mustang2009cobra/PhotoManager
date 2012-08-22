@@ -27,3 +27,10 @@ textarea
     padding:3px;
 }
 
+.selected
+{
+    background-color:#369;
+    color:#fff;
+    border-top:1px solid #fff;
+}
+

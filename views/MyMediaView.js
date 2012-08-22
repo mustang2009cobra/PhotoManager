@@ -31,15 +31,26 @@ var MyMediaView = Backbone.View.extend({
     },
    
     uploadComplete: function(){
+        var myMediaThis = Router.myMedia; //Since we're in the context of the iframe, we need to be in our view's context
         var ret = frames['upload_target'].document.getElementsByTagName("p")[0].innerHTML;
 
         document.getElementById('file_upload_form').reset();
 
-        if(ret == "UPLOAD_COMPLETE"){
-            //showAlert({type:"success", message:"The file was uploaded successfully."});
-        }
-        else{
-            //showAlert({type:"error", message:"There was an error uploading the file."});
+        switch(ret){
+            case "SAVE_TO_DATABASE_FAILED":
+                Router.alert.render({type: "error", message: "The file upload failed due to a database error."});
+                break;
+            case "FILE_UPLOAD_FAILED":
+                Router.alert.render({type: "error", message: "The file could not be uploaded to the server."});
+                break;
+            case "UPLOAD_FAILED":
+                Router.alert.render({type: "error", message: "The file upload failed due to a server issue."});
+                break;
+            default: //Success
+                var retData = $.parseJSON(ret);
+                myMediaThis.filesView.collection.add(new File(retData[0])); //Add new item to collection
+                Router.alert.render({type: "success", message: "The file was uploaded successfully"});
+                break;
         }
 
         //TODO Replace the loader with the submit button

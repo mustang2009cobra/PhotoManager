@@ -6,16 +6,16 @@ var AlertView = Backbone.View.extend({
    
    el: "#alertArea",
    
-   render: function(){
+   render: function(params){
        var options = {
-           type: this.type,
-           message: this.message
+           type: params.type,
+           message: params.message
        }
        
-       if(this.type == 'error'){
+       if(params.type == 'error'){
            options.header = "Error";
        }
-       else if(this.type == 'success'){
+       else if(params.type == 'success'){
            options.header = "Success";
        }
        else{

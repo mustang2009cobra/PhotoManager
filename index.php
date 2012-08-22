@@ -9,8 +9,9 @@
 
     <!-- STYLES -->
     <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/photo-manager.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/photo-manager.css" rel="stylesheet">
+    
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
