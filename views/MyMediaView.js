@@ -49,15 +49,17 @@ var MyMediaView = Backbone.View.extend({
     },
    
     getFiles: function(){
+        var thisView = this;
+        
         $.ajax({
             data: {
                 resource: "files"
             },
             success: function(data){
                 var files = $.parseJSON(data);
-                console.log(files);
-
-                //var filesView = new FilesView(array);
+                //console.log(files);
+                console.log("Starting to create the FilesView");
+                thisView.filesView = new FilesView(files);
 
                 //Hide loader
                 $("#ajaxLoadingBar").remove();

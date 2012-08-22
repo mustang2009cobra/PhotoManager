@@ -7,15 +7,10 @@ var AlertView = Backbone.View.extend({
    el: "#alertArea",
    
    render: function(){
-       console.log("TYPE");
-       console.log(this.type);
        var options = {
            type: this.type,
            message: this.message
        }
-       
-       console.log("TYPE");
-       console.log(this.type);
        
        if(this.type == 'error'){
            options.header = "Error";

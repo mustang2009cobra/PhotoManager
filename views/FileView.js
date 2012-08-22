@@ -1,12 +1,14 @@
 var FileView = Backbone.View.extend({
-    tagName: "tr",
     className: "file",
-    template: $("#fileTemplate").html(),
+    
+    initialize: function(){
+        this.template = _.template(PHOTO_MANAGER.Templates.File);
+    },
 
     render: function(){
-        var tmpl = _.template(this.template);
+        console.log("Rendering a single file");
 
-        this.$el.html(tmpl(this.model.toJSON()));
+        this.$el.html(this.template(this.model.toJSON()));
         return this;
     }
 });

@@ -9,8 +9,10 @@ require_once('../api/utils/DB.php');
 echo "<p>";
 
 if($_FILES['file']['error'] != 0){
-	return "FILE_UPLOAD_FAILED";
+	echo "FILE_UPLOAD_FAILED";
+        echo $_FILES['file']['error'];
 	echo "</p>";
+        return;
 }
 
 $tmpFilePath = $_FILES['file']['tmp_name'];
