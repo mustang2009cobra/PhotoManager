@@ -16,6 +16,7 @@ $(document).ready(function(){
     //Get all templates
     $.ajax({
         data: {
+            method: "get",
             resource: "templates"
         },
         async: false,

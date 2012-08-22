@@ -124,14 +124,16 @@ class DB {
     public function update($table, $updates, $query = array()){
         $updateStatement = "UPDATE $table SET";
         foreach($updates as $key => $value){
-            $updateStatement .= " $key=$value";
+            $updateStatement .= " $key=$value,";
         }
+        $updateStatement = substr($insertStatement, 0, -2); //Remove the last comma
         if(count($query) > 0){
             $updateStatement .= " WHERE";
             foreach($query as $key => $value){
-                $updateStatement .= " $key=$value";
+                $updateStatement .= " $key=$value,";
             }
         }
+        $updateStatement = substr($insertStatement, 0, -2); //Remove the last comma
         
         return $this->exec($updateStatement);
     }
@@ -167,6 +169,18 @@ class DB {
         
         return $this->exec($insertStatement);
     }
+    
+    /*
+    public function delete($table, $values){
+        $deleteStatement = "DELETE FROM $table WHERE";
+        foreach($updates as $key => $value){
+            $updateStatement .= " $key=$value";
+        }
+        
+        return $this->exec($updateStatement);
+    }
+     * 
+     */
     
 }
 

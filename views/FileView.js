@@ -7,7 +7,8 @@ var FileView = Backbone.View.extend({
     },
     
     events: {
-        "click": "selectFile"
+        "click": "selectFile",
+        "doubleclick": "previewFile"
     },
 
     render: function(){
@@ -17,6 +18,13 @@ var FileView = Backbone.View.extend({
     
     selectFile: function(event){
         var item = $(event.target);
+        if($('.selected').size() > 0){ //A file is already selected
+            $(".selected").removeClass('selected');
+        }
         $(item).parent().addClass("selected");
+    },
+    
+    previewFile: function(event){
+        
     }
 });

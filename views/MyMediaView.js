@@ -8,7 +8,11 @@ var MyMediaView = Backbone.View.extend({
 
     events: {
         "click .addFile": "openAddFileDialog",
-        "click #uploadImageButton": "uploadFile"      
+        "click #uploadImageButton": "uploadFile",
+        'click .deleteFile' : "deleteSelectedFiles",
+        'click .downloadFile' : "downloadSelectedFiles",
+        'click .editFile' : "editSelectedFilesMetadata",
+        'click .replaceFile' : "replaceSelectedFile"
     },
 
     render: function(){
@@ -64,6 +68,7 @@ var MyMediaView = Backbone.View.extend({
         
         $.ajax({
             data: {
+                method: "get",
                 resource: "files"
             },
             success: function(data){
@@ -75,7 +80,24 @@ var MyMediaView = Backbone.View.extend({
                 $("#ajaxLoadingBar").remove();
             }
         });
+    },
+    
+    deleteSelectedFiles: function(){
+        
+    },
+    
+    downloadSelectedFiles: function(){
+        
+    },
+    
+    editSelectedFilesMetadata: function(){
+        
+    },
+    
+    replaceSelectedFile: function(){
+        
     }
+    
 });
 
 

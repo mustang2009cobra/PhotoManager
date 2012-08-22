@@ -1,7 +1,23 @@
 <div class="row-fluid">
-    <div class="btn-group">
-        <button class="btn btn-primary addFile">Add File</button>
-        <!-- <button class="btn btn-primary addFolder">Add Folder</button> -->
+    <div class="span9">
+        <div class="btn-group">
+            <button class="btn btn-primary addFile">Add File</button>
+            <!-- <button class="btn btn-primary addFolder">Add Folder</button> -->
+        </div>
+    </div>
+    <div class="span3">
+        <div class="btn-group pull-right">
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                File Actions
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li class="deleteFile"><a>Delete</a></li>
+                <li class="downloadFile"><a>Download</a></li>
+                <li class="editFile"><a>Edit Metadata</a></li>
+                <li class="replaceFile"><a>Replace</a></li>
+            </ul>
+        </div>
     </div>
 </div><!--/row-->
 <div class="row-fluid">
