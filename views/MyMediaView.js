@@ -22,7 +22,10 @@ var MyMediaView = Backbone.View.extend({
 
     //Shows the "Add File" dialog box
     openAddFileDialog: function(){
-        $('#uploadImageDialog').modal();
+        var fileDialogTempl = _.template(PHOTO_MANAGER.Templates.uploadModal); //Compile addFile dialog
+        
+        $("#mainModal").html(fileDialogTempl()); //Set modal content to be file upload dialog
+        $('#mainModal').modal();
     },
 
     //Uploads a file from the form
@@ -60,7 +63,7 @@ var MyMediaView = Backbone.View.extend({
         //TODO Replace the loader with the submit button
 
         //Close the modal window
-        $('#uploadImageDialog').modal('hide');
+        $('#mainModal').modal('hide');
     },
    
     getFiles: function(){
@@ -83,19 +86,35 @@ var MyMediaView = Backbone.View.extend({
     },
     
     deleteSelectedFiles: function(){
+        if($('.selected').size() < 1){ //If none are selected
+            Router.alert.render({type: "info", message: "You must select a file to delete"});
+        }
         
+        //Delete the selected files
     },
     
     downloadSelectedFiles: function(){
+        if($('.selected').size() < 1){ //If none are selected
+            Router.alert.render({type: "info", message: "You must select a file to download"});
+        }
         
+        //Download the selected files
     },
     
     editSelectedFilesMetadata: function(){
+        if($('.selected').size() < 1){ //If none are selected
+            Router.alert.render({type: "info", message: "You must select a file to edit"});
+        }
         
+        //Edit the selected files
     },
     
     replaceSelectedFile: function(){
+        if($('.selected').size() < 1){ //If none are selected
+            Router.alert.render({type: "info", message: "You must select a file to replace"});
+        }
         
+        //Replace the selected files
     }
     
 });
