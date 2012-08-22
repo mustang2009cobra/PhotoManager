@@ -57,7 +57,6 @@ var MyMediaView = Backbone.View.extend({
             },
             success: function(data){
                 var files = $.parseJSON(data);
-                //console.log(files);
                 console.log("Starting to create the FilesView");
                 thisView.filesView = new FilesView(files);
 
