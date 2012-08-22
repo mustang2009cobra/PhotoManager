@@ -90,7 +90,10 @@ var MyMediaView = Backbone.View.extend({
             Router.alert.render({type: "info", message: "You must select a file to delete"});
         }
         
-        //Delete the selected files
+        var deleteDialogTempl = _.template(PHOTO_MANAGER.Templates.deleteModal); //Compile deleteFile dialog
+        
+        $("#mainModal").html(deleteDialogTempl()); //Set modal content to be file upload dialog
+        $('#mainModal').modal();
     },
     
     downloadSelectedFiles: function(){
@@ -98,7 +101,7 @@ var MyMediaView = Backbone.View.extend({
             Router.alert.render({type: "info", message: "You must select a file to download"});
         }
         
-        //Download the selected files
+        //Don't show modal, just download the file
     },
     
     editSelectedFilesMetadata: function(){
@@ -106,7 +109,7 @@ var MyMediaView = Backbone.View.extend({
             Router.alert.render({type: "info", message: "You must select a file to edit"});
         }
         
-        //Edit the selected files
+        //Show modal to allow for file editing
     },
     
     replaceSelectedFile: function(){
@@ -114,7 +117,7 @@ var MyMediaView = Backbone.View.extend({
             Router.alert.render({type: "info", message: "You must select a file to replace"});
         }
         
-        //Replace the selected files
+        //Show modal to allow for replacing file
     }
     
 });
