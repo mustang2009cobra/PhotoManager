@@ -130,7 +130,7 @@ class PhotoAPI{
             case "file":
                 $updates = array(
                     'Deleted' => time(),
-                    'DeletedBy' => $params['currentUser']
+                    'DeletedBy' => "757204282" //TODO HANDLE USER AUTHENTICATION LATER
                 );
                 $query = array(
                     'FileId' => $params['FileID']

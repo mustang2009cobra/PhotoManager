@@ -2,10 +2,10 @@ var FilesView = Backbone.View.extend({
     el: "#filesTableBody",
 
     initialize: function(files){ //When created, the collection passed in will be the collection for the Files View
-        var filesViewThis = this;
         this.collection = new Files(files);
+        //this.fileViews = { };
         this.render();
-        this.collection.on("add", this.renderFile, this); //passes the view context instead of the collection
+        this.collection.bind("add", this.renderFile, this); //passes the view context instead of the collection
     },
 
     render: function(){
@@ -20,6 +20,8 @@ var FilesView = Backbone.View.extend({
         var fileView = new FileView({ //Create new FileView, passing the file as its model
             model: file
         });
+        //this.fileViews[file.get("FileID")] = fileView; //Keep track of FileView in FilesView view
+        
         this.$el.append(fileView.render().$el.attr('id', file.get("FileID"))); //Apend rendered file to the files table
     }
 

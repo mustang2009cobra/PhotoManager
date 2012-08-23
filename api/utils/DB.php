@@ -124,16 +124,20 @@ class DB {
     public function update($table, $updates, $query = array()){
         $updateStatement = "UPDATE $table SET";
         foreach($updates as $key => $value){
-            $updateStatement .= " $key=$value,";
+            var_dump(" $key='$value',");
+            $updateStatement .= " $key='$value',";
         }
-        $updateStatement = substr($insertStatement, 0, -2); //Remove the last comma
+        var_dump($updateStatement);
+        $updateStatement = substr($updateStatement, 0, -2); //Remove the last comma
+        var_dump($updateStatement);
+        die();
         if(count($query) > 0){
             $updateStatement .= " WHERE";
             foreach($query as $key => $value){
-                $updateStatement .= " $key=$value,";
+                $updateStatement .= " $key=\"$value\",";
             }
         }
-        $updateStatement = substr($insertStatement, 0, -2); //Remove the last comma
+        $updateStatement = substr($updateStatement, 0, -2); //Remove the last comma
         
         return $this->exec($updateStatement);
     }

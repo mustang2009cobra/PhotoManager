@@ -22,9 +22,8 @@ $(document).ready(function(){
         async: false,
         success: function(data){
             PHOTO_MANAGER.Templates = $.parseJSON(data);
-            console.log(PHOTO_MANAGER);
         }
-    })
+    });
     
     //Init router
     Router = new Router(); //global

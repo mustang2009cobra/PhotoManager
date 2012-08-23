@@ -18,7 +18,7 @@ var MyMediaView = Backbone.View.extend({
 
     render: function(){
         this.$el.html(this.template());
-        this.getFiles();
+        this.renderFilesTable();
     },
 
     //Shows the "Add File" dialog box
@@ -70,17 +70,17 @@ var MyMediaView = Backbone.View.extend({
     /**
      * Gets the complete filelist via ajax, then renders them in a new FilesView
      */
-    getFiles: function(){
+    renderFilesTable: function(){
         var thisView = this;
         
-        $.ajax({
+        $.ajax({ //Grab all file information
             data: {
                 method: "get",
                 resource: "files"
             },
             success: function(data){
                 var files = $.parseJSON(data);
-                thisView.filesView = new FilesView(files);
+                thisView.filesView = new FilesView(files); //Create new FilesViews
 
                 //Hide loader
                 $("#ajaxLoadingBar").remove();
@@ -106,6 +106,7 @@ var MyMediaView = Backbone.View.extend({
         var that = this;
         _.each(files, function(file){
             that.filesView.collection.remove($(file).attr('id'));
+            //that.filesView.fileViews[$(file).attr('id')].remove();
         });
         
         $('#mainModal').modal("hide");
