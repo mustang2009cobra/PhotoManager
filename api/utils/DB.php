@@ -15,27 +15,27 @@
 class DB {
     const PRODUCTION = FALSE; //Set to false on development environments!
     
-    private $DBNAME = "photo-manager"; //Application database
-    
     //Development DB credentials
     private $DEV_HOSTNAME = "localhost";
+    private $DEV_DBNAME = "photo-manager"; //Application database
     private $DEV_USERNAME = "root";
     private $DEV_PASSWORD = "";
     
     //Production DB credentials
-    private $PROD_HOSTNAME = "MYHOSTHERE";
-    private $PROD_USERNAME = "MYUSERNAME";
-    private $PROD_PASSWORD = "MYPASSWORD";
+    private $PROD_HOSTNAME = "localhost";
+    private $PROD_DBNAME = "dsw88_photo-manager";
+    private $PROD_USERNAME = "dsw88_photo";
+    private $PROD_PASSWORD = "R+ZISAVUd)ZE";
     
     private $dbh = null;
     
     public function __construct(){
         try{
             if(self::PRODUCTION){
-                $this->dbh = new PDO("mysql:host=$this->PROD_HOSTNAME;dbname=$this->DBNAME", $this->PROD_USERNAME, $this->PROD_PASSWORD);
+                $this->dbh = new PDO("mysql:host=$this->PROD_HOSTNAME;dbname=$this->PROD_DBNAME", $this->PROD_USERNAME, $this->PROD_PASSWORD);
             }
             else{
-                $this->dbh = new PDO("mysql:host=$this->DEV_HOSTNAME;dbname=$this->DBNAME", $this->DEV_USERNAME, $this->DEV_PASSWORD);
+                $this->dbh = new PDO("mysql:host=$this->DEV_HOSTNAME;dbname=$this->DEV_DBNAME", $this->DEV_USERNAME, $this->DEV_PASSWORD);
             }
         }
         catch(PDOException $e){

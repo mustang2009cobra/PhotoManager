@@ -8,7 +8,8 @@ var FileView = Backbone.View.extend({
     
     events: {
         "click": "selectFile",
-        "doubleclick": "previewFile"
+        "doubleclick": "previewFile",
+        "remove:model": "removeView"
     },
 
     render: function(){
@@ -26,5 +27,10 @@ var FileView = Backbone.View.extend({
     
     previewFile: function(event){
         
+    },
+    
+    removeView: function(){
+        console.log(this.remove);
+        this.remove();
     }
 });

@@ -6,7 +6,6 @@ var FilesView = Backbone.View.extend({
         this.collection = new Files(files);
         this.render();
         this.collection.on("add", this.renderFile, this); //passes the view context instead of the collection
-        this.collection.on("remove", this.removeFile, this); //passes the view context instead of the collection 
     },
 
     render: function(){
@@ -21,7 +20,7 @@ var FilesView = Backbone.View.extend({
         var fileView = new FileView({ //Create new FileView, passing the file as its model
             model: file
         });
-        this.$el.append(fileView.render().$el); //Apend rendered file to the files table
+        this.$el.append(fileView.render().$el.attr('id', file.get("FileID"))); //Apend rendered file to the files table
     }
 
 });

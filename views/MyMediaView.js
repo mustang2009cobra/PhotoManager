@@ -9,10 +9,11 @@ var MyMediaView = Backbone.View.extend({
     events: {
         "click .addFile": "openAddFileDialog",
         "click #uploadImageButton": "uploadFile",
-        'click .deleteFile' : "deleteSelectedFiles",
+        'click #deleteFileButton' : "deleteFiles",
+        'click .deleteFile' : "showDeleteModal",
         'click .downloadFile' : "downloadSelectedFiles",
-        'click .editFile' : "editSelectedFilesMetadata",
-        'click .replaceFile' : "replaceSelectedFile"
+        'click .editFile' : "showEditModal",
+        'click .replaceFile' : "showReplaceModal"
     },
 
     render: function(){
@@ -66,6 +67,9 @@ var MyMediaView = Backbone.View.extend({
         $('#mainModal').modal('hide');
     },
    
+    /**
+     * Gets the complete filelist via ajax, then renders them in a new FilesView
+     */
     getFiles: function(){
         var thisView = this;
         
@@ -76,7 +80,6 @@ var MyMediaView = Backbone.View.extend({
             },
             success: function(data){
                 var files = $.parseJSON(data);
-                console.log("Starting to create the FilesView");
                 thisView.filesView = new FilesView(files);
 
                 //Hide loader
@@ -85,7 +88,7 @@ var MyMediaView = Backbone.View.extend({
         });
     },
     
-    deleteSelectedFiles: function(){
+    showDeleteModal: function(){
         if($('.selected').size() < 1){ //If none are selected
             Router.alert.render({type: "info", message: "You must select a file to delete"});
         }
@@ -94,6 +97,18 @@ var MyMediaView = Backbone.View.extend({
         
         $("#mainModal").html(deleteDialogTempl()); //Set modal content to be file upload dialog
         $('#mainModal').modal();
+        
+        
+    },
+    
+    deleteFiles: function(){
+        var files = $('.selected');
+        var that = this;
+        _.each(files, function(file){
+            that.filesView.collection.remove($(file).attr('id'));
+        });
+        
+        $('#mainModal').modal("hide");
     },
     
     downloadSelectedFiles: function(){
@@ -101,10 +116,13 @@ var MyMediaView = Backbone.View.extend({
             Router.alert.render({type: "info", message: "You must select a file to download"});
         }
         
+        
+        //Remove the model from the collection
+        //Remove the view
         //Don't show modal, just download the file
     },
     
-    editSelectedFilesMetadata: function(){
+    showEditModal: function(){
         if($('.selected').size() < 1){ //If none are selected
             Router.alert.render({type: "info", message: "You must select a file to edit"});
         }
@@ -112,7 +130,7 @@ var MyMediaView = Backbone.View.extend({
         //Show modal to allow for file editing
     },
     
-    replaceSelectedFile: function(){
+    showReplaceModal: function(){
         if($('.selected').size() < 1){ //If none are selected
             Router.alert.render({type: "info", message: "You must select a file to replace"});
         }
