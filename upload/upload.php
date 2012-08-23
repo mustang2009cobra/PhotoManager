@@ -2,6 +2,7 @@
 require_once("../inc/defines.php");
 require_once("../util/UID.php");
 require_once('../api/utils/DB.php');
+require_once('../plugins/getid3-1.9/getid3/getid3.php');
 
 /**
  * Mapping of certain mime types to others that we will store instead of the original type
@@ -77,6 +78,7 @@ $docTypeMap = array(
     //VIDEO
     "video/avi" => "video",
     "video/x-msvideo" => "video",
+    "video/x-ms-wmv" => "video",
     "video/x-dv" => "video",
     "video/x-m4v" => "video",
     "video/vnd.mpegurl" => "video",
@@ -121,9 +123,9 @@ $docTypeMap = array(
 echo "<p>";
 
 if($_FILES['file']['error'] != 0){
-	echo "FILE_UPLOAD_FAILED";
-	echo "</p>";
-        return;
+    echo "FILE_UPLOAD_FAILED";
+    echo "</p>";
+    return;
 }
 
 $tmpFilePath = $_FILES['file']['tmp_name'];
@@ -137,7 +139,7 @@ $description = $_POST['photoDescription'];
 $uid = GuidGenerator::Create();
 $fileId = GuidGenerator::toGuid($uid);
 
-$fileType = $docTypeMap[$mimeType];
+$fileType = isset($docTypeMap[$mimeType]) ? $docTypeMap[$mimeType] : 'miscellaneous';
 
 //Set the file path for where the file will be stored (currently all sits in one folder, that will change as we add users)
 $fileStorageDir = STORAGE_PATH;
@@ -155,8 +157,6 @@ if(!$moveSuccess){
 $now = time();
 $owner = '757204282';
 
-//TODO - Analyze file with GetID3 to get file width, height, and duration
-
 //Add file to the database
 $file = array();
 $file['FileID'] = $fileId;
@@ -173,6 +173,25 @@ $file['Type'] = $fileType;
 $file['Width'] = -1;
 $file['Height'] = -1;
 $file['Duration'] = -1;
+
+/******************************************************************************/
+/************************ANALYZE WITH GETID3***********************************/
+/******************************************************************************/
+$getID3 = new getID3;
+$fileInfo = $getID3->analyze($filePath);
+
+if($fileType == 'image'){
+    $file['Width'] = $fileInfo['video']['resolution_x'];
+    $file['Height'] = $fileInfo['video']['resolution_y'];
+}
+else if($fileType == 'video'){
+    $file['Width'] = $fileInfo['video']['resolution_x'];
+    $file['Height'] = $fileInfo['video']['resolution_y'];
+    $file['Duration'] = $fileInfo['playtime_seconds'];
+}
+else if($fileType == 'audio'){
+    $file['Duration'] = $fileInfo['playtime_seconds'];
+}
 
 $dbh = new DB();
 $result = $dbh->insert('files', $file);

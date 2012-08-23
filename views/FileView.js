@@ -36,10 +36,14 @@ var FileView = Backbone.View.extend({
             
         }
         else if(this.$el.hasClass("image")){
-            //Show the image in the modal
+            var imagePreviewTmpl = _.template(PHOTO_MANAGER.Templates.imagePreviewModal); //Compile deleteFile dialog
+        
+            $("#mainModal").html(imagePreviewTmpl()); //Set modal content to be file upload dialog
+            $("#mainModal .modal-body").html("<img src='download/download.php?file=" + JSON.stringify(this.model.attributes) + "/>");
+            $('#mainModal').modal()
         }
         else{
-            //Just download the file
+            window.open("download/download.php?file=" + JSON.stringify(this.model.attributes));
         }
     },
     

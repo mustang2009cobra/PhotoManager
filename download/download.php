@@ -1,37 +1,39 @@
 <?php
 require_once("../inc/defines.php");
 
-if(!isset($_GET['fileId'])){
-    throw new Exception("fileId GET param must be sent");
+if(!isset($_GET['file'])){
+    throw new Exception("file must be sent");
 }
 
-if(json_decode($_GET['fileId']) != null){
-    $id = json_decode($_GET['fileId']);
-}else{
-    $id = $_GET['fileId'];
+if(json_decode($_GET['file']) != null){
+    $file = json_decode($_GET['file']);
 }
 
-outputData($id);
+outputData($file);
 
 
-function outputData($fileId) {
+function outputData($file) {
     header('Content-Description: File Transfer');
 
     //Eventually determine the mimeType and send that along as the Content-Type header
-    header('Content-Type: application/octet-stream');
+    if(isset($file->MimeType)){
+        header("Content-Type: $file->MimeType");
+    }else{
+        header('Content-Type: application/octet-stream');
+    }
 
     //Eventually once we store the filename, send that along so we don't download the file with the guid as the name
-    //header('Content-Disposition: filename="'.$this->name.'"');
+    header("Content-Disposition: filename=$file->Name");
     header('Content-Transfer-Encoding: binary');
     header('Expires:  0');
     header('Pragma: public');
-    $filesize = filesize(STORAGE_PATH . '/' . $fileId);
+    $filesize = filesize(STORAGE_PATH . '/' . $file->FileID);
     header('Content-Length:'.$filesize);
 
     ob_flush();
     flush();
 
-    readfile_chunked_remote(STORAGE_PATH . '/'. $fileId);
+    readfile_chunked_remote(STORAGE_PATH . '/'. $file->FileID);
 }
 
 function readfile_chunked_remote($filename, $seek = 0, $retbytes = true, $timeout = 3) { 

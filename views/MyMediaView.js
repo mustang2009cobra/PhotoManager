@@ -97,8 +97,6 @@ var MyMediaView = Backbone.View.extend({
         
         $("#mainModal").html(deleteDialogTempl()); //Set modal content to be file upload dialog
         $('#mainModal').modal();
-        
-        
     },
     
     deleteFiles: function(){

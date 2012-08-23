@@ -20,7 +20,8 @@ var FilesView = Backbone.View.extend({
         var fileView = new FileView({ //Create new FileView, passing the file as its model
             model: file
         });
-        //this.fileViews[file.get("FileID")] = fileView; //Keep track of FileView in FilesView view
+        
+        file.set("Dimensions", file.get("Width") + " x " + file.get("Height"));
         
         this.$el.append(fileView.render().$el.attr('id', file.get("FileID"))); //Apend rendered file to the files table
     }

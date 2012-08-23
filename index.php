@@ -11,7 +11,7 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
     <link href="css/photo-manager.css" rel="stylesheet">
-    
+    <link rel="stylesheet" href="plugins/projekktor-1.0.29/theme/style.css" type="text/css" media="screen" />
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -95,6 +95,7 @@
     <script src="lib/bootstrap-collapse.js"></script>
     <script src="lib/bootstrap-carousel.js"></script>
     <script src="lib/bootstrap-typeahead.js"></script>
+    <script src="plugins/projekktor-1.0.29/projekktor.min.js"></script>
     <script src="js/utils.js"></script>
     <!-- MODELS -->
     <script src="models/File.js"></script>
