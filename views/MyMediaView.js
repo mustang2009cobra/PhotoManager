@@ -74,9 +74,9 @@ var MyMediaView = Backbone.View.extend({
         var thisView = this;
         
         $.ajax({ //Grab all file information
+            url: "api/index.php/files",
             data: {
-                method: "get",
-                resource: "files"
+                method: "get"
             },
             success: function(data){
                 var files = $.parseJSON(data);

@@ -1,0 +1,66 @@
+<div class="row-fluid">
+    <div class="span9">
+        <div class="btn-group">
+            <button class="btn btn-large btn-primary addFile">Add File</button>
+            <!-- <button class="btn btn-primary addFolder">Add Folder</button> -->
+        </div>
+    </div>
+    <div class="span3">
+        <div class="btn-group pull-right">
+            <a class="btn btn-large dropdown-toggle" data-toggle="dropdown" href="#">
+                File Actions
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li class="deleteFile"><a>Delete</a></li>
+                <li class="downloadFile"><a>Download</a></li>
+                <li class="editFile"><a>Edit Metadata</a></li>
+                <li class="replaceFile"><a>Replace</a></li>
+            </ul>
+        </div>
+    </div>
+</div><!--/row-->
+<div class="row-fluid">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Dimensions
+                </th>
+                <th>
+                    Duration
+                </th>
+                <th>
+                    Last Modified
+                </th>
+            </tr>
+        </thead>
+        <tbody id="filesTableBody">
+        </tbody>
+    </table>
+    <div id="ajaxLoadingBar" class="span3">
+        <p>Loading...</p>
+        <div class="progress progress-striped active">
+            <div class="bar" style="width: 100%;"></div>
+        </div>
+    </div>
+</div>
+
+<!-------------------------------------------------------------------------->
+<!----------------------------------MODALS---------------------------------->
+<!-------------------------------------------------------------------------->
+<div class="modal hide" id="mainModal">
+    
+</div>
+
+<hr>
+
+<footer>
+    <p>&copy; FineWoods 2012</p>
+</footer>

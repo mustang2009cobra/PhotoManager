@@ -9,15 +9,14 @@ $(document).ready(function(){
     PHOTO_MANAGER.Templates = { }; //Empty object for templates ajaxed from API
     
     $.ajaxSetup({
-        url: 'api/',
         type: "POST"
     });
     
     //Get all templates
     $.ajax({
+        url: "api/index.php/templates",
         data: {
-            method: "get",
-            resource: "templates"
+            method: "get"
         },
         async: false,
         success: function(data){

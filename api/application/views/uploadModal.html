@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">x</button>
+    <h3>Upload File</h3>
+</div>
+<div class="modal-body">
+    <form id="file_upload_form" method="post" enctype="multipart/form-data" action="upload/upload.php"
+        <p>
+            <label id="photoInput_label" for="photoInput" class=" ">Select a file</label>
+            <input class="photoInput" name="file" type="file" />
+        </p>
+        <p>
+            <textarea id="photoDescription" rows="5" cols="10" name="photoDescription"></textarea>
+        </p>
+        <!--<input type="hidden" id="enrollmentidFormField" name="enrollmentid" />-->
+        <input id="photo-upload-submit-btn" class="hidden" type="submit" value="photoUploadSubmit">
+        <iframe id="upload_target" name="upload_target" src="" style="width:0;height:0;border:0px solid #fff;"></iframe>
+    </form>
+</div>
+<div class="modal-footer">
+    <a class="btn" data-dismiss="modal">Close</a>
+    <a id="uploadImageButton" class="btn btn-primary">Upload</a>
+</div>
