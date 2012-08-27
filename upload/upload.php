@@ -128,6 +128,13 @@ if($_FILES['file']['error'] != 0){
     return;
 }
 
+//See if they're uploading the correct filetype (images only)
+$uploadedFileType = strtolower(substr(strrchr($_FILES['file']['name'],'.'),1));
+if(!isValidFileType($uploadedFileType)){
+    echo "INVALID_FILETYPE</p>";
+    return;
+}
+
 $tmpFilePath = $_FILES['file']['tmp_name'];
 $fileName = $_FILES['file']['name'];
 $mimeType = isset($mimeTypeMap[$_FILES['file']['type']]) ? $mimeTypeMap[$_FILES['file']['type']] : $_FILES['file']['type'];
@@ -208,7 +215,28 @@ echo "</p>";
 /******************************************************************************/
 /***************************SCRIPT FUNCTIONS***********************************/
 /******************************************************************************/
-
+function isValidFileType($fileType){
+    switch($fileType){
+        case "jpg": 
+            return true;
+            break;
+        case "jpeg": 
+            return true;
+            break;
+        case "png": 
+            return true;
+            break;
+        case "bmp": 
+            return true;
+            break;
+        case "gif": 
+            return true;
+            break;
+        default:
+            return false;
+            break;
+    }
+}
 
 
 ?>

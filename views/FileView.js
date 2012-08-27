@@ -23,14 +23,15 @@ var FileView = Backbone.View.extend({
     selectFile: function(event){
         var item = $(event.target);
         if($('.selected').size() > 0){ //A file is already selected
-            $(".selected").removeClass('selected');
+            //If the control button isn't held held
+                $(".selected").removeClass('selected');
+                
         }
         $(item).parent().addClass("selected");
     },
     
     previewFile: function(event){
         var modelAttrs = this.model.attributes;
-        modelAttrs.downloadType = "download";
         
         if(this.$el.hasClass("image")){
             var imagePreviewTmpl = _.template(PHOTO_MANAGER.Templates.previewModal); //Compile imagePreview dialog

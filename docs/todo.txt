@@ -1,3 +1,1 @@
--Only accept certain file types (mp4, wmv, flv, mp3)
--Implement delete functionality to remove files from database
--Make alert functionality timeout after a certain time (on success and info, not error)
+-Create edit metadata modal

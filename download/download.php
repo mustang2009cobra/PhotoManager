@@ -9,7 +9,7 @@ if(json_decode($_GET['file']) != null){
     $file = json_decode($_GET['file']);
 }
 
-if($file->downloadType == "stream"){
+if(isset($file->downloadType) && $file->downloadType == "stream"){
     GET($file);
 }
 else{
@@ -28,7 +28,7 @@ function outputData($file) {
     }
 
     //Eventually once we store the filename, send that along so we don't download the file with the guid as the name
-    header("Content-Disposition: filename=$file->Name");
+    header("Content-Disposition: attachment; filename=$file->Name");
     header('Content-Transfer-Encoding: binary');
     header('Expires:  0');
     header('Pragma: public');

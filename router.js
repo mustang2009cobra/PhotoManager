@@ -12,11 +12,24 @@ var Router = Backbone.Router.extend({
    },
    
    myMedia: function(){
+       this.setActiveHeaderState("myFiles");
        this.myMedia.render();
    },
    
    rateMedia: function(){
+       this.setActiveHeaderState("rateFiles");
        this.rateMedia.render();
+   },
+   
+   setActiveHeaderState: function(page){
+       if(page == "myFiles"){
+           $("#myFilesPageLink").parent().addClass("active");
+           $("#rateFilesPageLink").parent().removeClass("active");
+       }
+       else if(page == "rateFiles"){
+           $("#myFilesPageLink").parent().removeClass("active");
+           $("#rateFilesPageLink").parent().addClass("active");
+       }
    }
 });
 

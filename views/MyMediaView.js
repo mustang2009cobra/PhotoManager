@@ -46,13 +46,16 @@ var MyMediaView = Backbone.View.extend({
 
         switch(ret){
             case "SAVE_TO_DATABASE_FAILED":
-                showAlert({type: "error", message: "The file upload failed due to a database error."});
+                showAlert({type: "error", message: "File upload failed: Database error."});
                 break;
             case "FILE_UPLOAD_FAILED":
-                showAlert({type: "error", message: "The file could not be uploaded to the server."});
+                showAlert({type: "error", message: "File upload failed: File couldn't be uploaded to the server."});
                 break;
             case "UPLOAD_FAILED":
-                showAlert({type: "error", message: "The file upload failed due to a server issue."});
+                showAlert({type: "error", message: "File upload failed: File upload failed due to a server issue."});
+                break;
+            case "INVALID_FILETYPE":
+                showAlert({type: "error", message: "File upload failed: Incorrect file type. Allowed types: bmp, gif, jpg, png"})
                 break;
             default: //Success
                 var retData = $.parseJSON(ret);
@@ -105,7 +108,6 @@ var MyMediaView = Backbone.View.extend({
         var that = this;
         _.each(files, function(file){
             that.filesView.collection.remove($(file).attr('id'));
-            //that.filesView.fileViews[$(file).attr('id')].remove();
         });
         
         $('#mainModal').modal("hide");
@@ -117,10 +119,9 @@ var MyMediaView = Backbone.View.extend({
             return;
         }
         
-        
-        //Remove the model from the collection
-        //Remove the view
-        //Don't show modal, just download the file
+        var thisModel = this.filesView.collection.get($(".selected").attr('id'));
+        var modelAttrs = thisModel.attributes;
+        window.open("download/download.php?file=" + JSON.stringify(modelAttrs));
     },
     
     showEditModal: function(){
@@ -129,7 +130,11 @@ var MyMediaView = Backbone.View.extend({
             return;
         }
         
-        //Show modal to allow for file editing
+        var thisModel = this.filesView.collection.get($(".selected").attr('id'));
+        var editDialogTmpl = _.template(PHOTO_MANAGER.Templates.editModal); //Compile deleteFile dialog
+        
+        $("#mainModal").html(editDialogTmpl(thisModel.toJSON())); //Set modal content to be file upload dialog
+        $('#mainModal').modal();
     },
     
     showReplaceModal: function(){
