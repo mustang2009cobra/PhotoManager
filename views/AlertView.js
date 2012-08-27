@@ -23,6 +23,9 @@ var AlertView = Backbone.View.extend({
        }
        
        this.$el.html(this.template(options));
+       this.$el.fadeIn('slow', function(){
+           //Nothing here yet
+       });
    }
 });
 

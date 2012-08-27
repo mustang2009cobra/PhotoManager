@@ -65,7 +65,7 @@
     <!----------------------------------ALERTS---------------------------------->
     <!-------------------------------------------------------------------------->
     <div class="container-fluid">
-        <div id="alertArea" class="row-fluid">
+        <div id="alertArea" class="row-fluid" style='display:none;'>
             <!--Alerts are rendered using JS templating-->
         </div>
     </div>

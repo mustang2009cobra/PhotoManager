@@ -19,4 +19,16 @@ function isset(object){
  */
 function showAlert(options){
     Router.alert.render(options);
+    if(options.type == "success" || options.type == "info"){
+        setTimeout(removeAlert, "3000");
+    }
 }
+
+function removeAlert(){
+    $("#alertArea").fadeOut('slow', function(){
+        //Nothing here yet
+    });
+    
+}
+
+
