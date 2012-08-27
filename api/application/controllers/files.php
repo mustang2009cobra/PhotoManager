@@ -61,7 +61,7 @@ class Files extends CI_Controller {
     * @param Array $params An array of the params required by this action
     */
     private function POST($params){
-       throw new Exception("Request method not allowed on this resource");
+       throw new Exception("POST Request method not allowed on this resource");
     }
 
     /**
@@ -70,7 +70,7 @@ class Files extends CI_Controller {
     * @param Array $params An array of the params required by this action
     */
     private function PUT($params){
-       throw new Exception("Request method not allowed on this resource");
+       throw new Exception("PUT Request method not allowed on this resource");
     }
 
     /**
@@ -79,7 +79,12 @@ class Files extends CI_Controller {
     * @param Array $params An array of the params required by this action
     */
     private function DELETE($params){
-       throw new Exception("Request method not allowed on this resource");
+       $file = json_decode($params['file']);
+       $this->files_mapper->delete_file($file);
+       
+       echo json_encode("SUCCESS");
+       
+       //$count = $this->files_mapper->delete_file($params[])
     }
 }
 

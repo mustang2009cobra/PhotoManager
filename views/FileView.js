@@ -31,19 +31,13 @@ var FileView = Backbone.View.extend({
     previewFile: function(event){
         var modelAttrs = this.model.attributes;
         modelAttrs.downloadType = "download";
-        if(this.$el.hasClass("audio")){
-            modelAttrs.downloadType = "stream";
-            window.open("download/download.php?file=" + JSON.stringify(modelAttrs));
-        }
-        else if(this.$el.hasClass("video")){
-            modelAttrs.downloadType = "stream";
-            window.open("download/download.php?file=" + JSON.stringify(modelAttrs));
-        }
-        else if(this.$el.hasClass("image")){
-            var imagePreviewTmpl = _.template(PHOTO_MANAGER.Templates.imagePreviewModal); //Compile imagePreview dialog
         
-            $("#mainModal").html(imagePreviewTmpl()); //Set modal content to be file upload dialog
+        if(this.$el.hasClass("image")){
+            var imagePreviewTmpl = _.template(PHOTO_MANAGER.Templates.previewModal); //Compile imagePreview dialog
+        
+            $("#mainModal").html(imagePreviewTmpl({header: "Image Preview"})); //Set modal content to be file upload dialog
             $("#mainModal .modal-body").html("<img src='download/download.php?file=" + JSON.stringify(modelAttrs) + "' />"); //Add image tag to modal
+            $("#mainModal .downloadFileBtn").attr('href', "download/download.php?file=" + JSON.stringify(modelAttrs)).attr('target', "_blank"); //Add link to download file
             $('#mainModal').modal();
         }
         else{
@@ -52,22 +46,20 @@ var FileView = Backbone.View.extend({
     },
     
     deleteFile: function(){
-        //DELETE IN MY DB CLASS ISN'T WORKING
-//        $.ajax({ //Grab all file information
-//            data: {
-//                method: "delete",
-//                resource: "file",
-//                params: {
-//                    "FileID" : this.model.get("FileID")
-//                }
-//            },
-//            success: function(data){
-//                var retData = $.parseJSON(data);
-                this.remove(); //Remove visual DOM element
-                this.unbind(); //Unbind all events
-//            }
-//        });
-        
-        
+        var thisContext = this;
+        $.ajax({ //Grab all file information
+            url: "api/index.php/files",
+            data: {
+                method: "delete",
+                params: {
+                    "file" : JSON.stringify(this.model.attributes)
+                }
+            },
+            success: function(data){
+                var retData = $.parseJSON(data);
+                thisContext.remove(); //Remove visual DOM element
+                thisContext.unbind(); //Unbind all events
+            }
+        });
     }
 });

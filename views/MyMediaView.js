@@ -46,18 +46,18 @@ var MyMediaView = Backbone.View.extend({
 
         switch(ret){
             case "SAVE_TO_DATABASE_FAILED":
-                Router.alert.render({type: "error", message: "The file upload failed due to a database error."});
+                showAlert({type: "error", message: "The file upload failed due to a database error."});
                 break;
             case "FILE_UPLOAD_FAILED":
-                Router.alert.render({type: "error", message: "The file could not be uploaded to the server."});
+                showAlert({type: "error", message: "The file could not be uploaded to the server."});
                 break;
             case "UPLOAD_FAILED":
-                Router.alert.render({type: "error", message: "The file upload failed due to a server issue."});
+                showAlert({type: "error", message: "The file upload failed due to a server issue."});
                 break;
             default: //Success
                 var retData = $.parseJSON(ret);
                 myMediaThis.filesView.collection.add(new File(retData[0])); //Add new item to collection
-                Router.alert.render({type: "success", message: "The file was uploaded successfully"});
+                showAlert({type: "success", message: "The file was uploaded successfully"});
                 break;
         }
 
@@ -90,7 +90,8 @@ var MyMediaView = Backbone.View.extend({
     
     showDeleteModal: function(){
         if($('.selected').size() < 1){ //If none are selected
-            Router.alert.render({type: "info", message: "You must select a file to delete"});
+            showAlert({type: "info", message: "You must select a file to delete"});
+            return;
         }
         
         var deleteDialogTempl = _.template(PHOTO_MANAGER.Templates.deleteModal); //Compile deleteFile dialog
@@ -112,7 +113,8 @@ var MyMediaView = Backbone.View.extend({
     
     downloadSelectedFiles: function(){
         if($('.selected').size() < 1){ //If none are selected
-            Router.alert.render({type: "info", message: "You must select a file to download"});
+            showAlert({type: "info", message: "You must select a file to download"});
+            return;
         }
         
         
@@ -123,7 +125,8 @@ var MyMediaView = Backbone.View.extend({
     
     showEditModal: function(){
         if($('.selected').size() < 1){ //If none are selected
-            Router.alert.render({type: "info", message: "You must select a file to edit"});
+            showAlert({type: "info", message: "You must select a file to edit"});
+            return;
         }
         
         //Show modal to allow for file editing
@@ -131,7 +134,8 @@ var MyMediaView = Backbone.View.extend({
     
     showReplaceModal: function(){
         if($('.selected').size() < 1){ //If none are selected
-            Router.alert.render({type: "info", message: "You must select a file to replace"});
+            showAlert({type: "info", message: "You must select a file to replace"});
+            return;
         }
         
         //Show modal to allow for replacing file

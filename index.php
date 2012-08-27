@@ -11,7 +11,6 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
     <link href="css/photo-manager.css" rel="stylesheet">
-    <link rel="stylesheet" href="plugins/projekktor-1.0.29/theme/style.css" type="text/css" media="screen" />
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -53,8 +52,8 @@
           </div>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="#my-media/" id="myFilesPageLink">My Media</a></li>
-              <li><a href="#rate-media/" id="rateFilesPageLink">Rate Media</a></li>
+              <li class="active"><a href="#my-media/" id="myFilesPageLink">My Images</a></li>
+              <li><a href="#rate-media/" id="rateFilesPageLink">Rate Images</a></li>
             </ul>
           </div>
           <!--/.nav-collapse -->
@@ -95,7 +94,6 @@
     <script src="lib/bootstrap-collapse.js"></script>
     <script src="lib/bootstrap-carousel.js"></script>
     <script src="lib/bootstrap-typeahead.js"></script>
-    <script src="plugins/projekktor-1.0.29/projekktor.min.js"></script>
     <script src="js/utils.js"></script>
     <!-- MODELS -->
     <script src="models/File.js"></script>
@@ -110,43 +108,5 @@
     <!-- MAIN -->
     <script src="router.js"></script>
     <script src="main.js"></script>
-    
-    <script type="text/javascript">
-
-        
-        /**
-         * Gets all files for a given user
-         */ 
-        function getFiles(){
-            
-        }
-        
-        /**
-         * Function called when a file upload is complete
-         */ 
-        function photoUploadDone(){
-            
-        }
-        
-        /**
-         * Shows an alert dialog at the top of the page.
-         * Requires the following options to be passed in a JS object:
-         *  -type: Determines which alert to show. Acceptable values: "info", "error", or "success"
-         *  -message: A string value of the message to show in the alert
-         */
-        function showAlert(options){
-            
-            
-            //Get html template and wrap in underscores template
-            var compiledAlert = _.template(
-                $("script.alertTemplate").html()
-            );
-            
-            //Compile template using options that came in
-            $("#alertArea").html(compiledAlert(options));
-        }
-        
-    </script>
-
   </body>
 </html>
