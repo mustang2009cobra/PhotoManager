@@ -17,7 +17,7 @@ class Templates_mapper extends CI_Model {
     }
     
     public function get_templates(){
-        $dirPath = '../views/templates/';
+        $dirPath = 'application/views/';
         if(is_dir($dirPath)) {
             if($dh = opendir($dirPath)) {
             while($file = readdir($dh)) {

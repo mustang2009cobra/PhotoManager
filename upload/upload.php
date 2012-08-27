@@ -1,6 +1,7 @@
 <?php
 require_once("../inc/defines.php");
 require_once("../util/UID.php");
+require_once("../api/utils/DB.php");
 require_once('../plugins/getid3-1.9/getid3/getid3.php');
 
 /**

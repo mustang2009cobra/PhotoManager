@@ -40,11 +40,11 @@ var FileView = Backbone.View.extend({
             window.open("download/download.php?file=" + JSON.stringify(modelAttrs));
         }
         else if(this.$el.hasClass("image")){
-            var imagePreviewTmpl = _.template(PHOTO_MANAGER.Templates.imagePreviewModal); //Compile deleteFile dialog
+            var imagePreviewTmpl = _.template(PHOTO_MANAGER.Templates.imagePreviewModal); //Compile imagePreview dialog
         
             $("#mainModal").html(imagePreviewTmpl()); //Set modal content to be file upload dialog
-            $("#mainModal .modal-body").html("<img src='download/download.php?file=" + JSON.stringify(modelAttrs) + "/>");
-            $('#mainModal').modal()
+            $("#mainModal .modal-body").html("<img src='download/download.php?file=" + JSON.stringify(modelAttrs) + "' />"); //Add image tag to modal
+            $('#mainModal').modal();
         }
         else{
             window.open("download/download.php?file=" + JSON.stringify(modelAttrs));
