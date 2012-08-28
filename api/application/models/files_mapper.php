@@ -11,6 +11,35 @@
  * @author David
  */
 class Files_mapper extends CI_Model {
+    /**
+    * Mapping of mime types to file types
+    * @var Array 
+    */
+    private $docTypeMap = array(
+        //IMAGE
+        "image/bmp" => "image",
+        "image/vnd.djvu" => "image",
+        "image/gif" => "image",
+        "image/x-icon" => "image",
+        "image/ief" => "image",
+        "image/jp2" => "image",
+        "image/jpeg" => "image",
+        "image/x-macpaint" => "image",
+        "image/x-portable-bitmap" => "image",
+        "image/pict" => "image",
+        "image/x-portable-graymap" => "image",
+        "image/png" => "image",
+        "image/x-portable-anymap" => "image",
+        "image/x-portable-pixmap" => "image",
+        "image/x-quicktime" => "image",
+        "image/x-cmu-raster" => "image",
+        "image/x-rgb" => "image",
+        "image/tiff" => "image",
+        "image/vnd.wap.wbmp" => "image",
+        "image/x-xbitmap" => "image",
+        "image/x-xpixmap" => "image",
+        "image/x-xwindowdump" => "image",
+    );
     
     public function __construct(){
         $this->load->database();
@@ -46,6 +75,7 @@ class Files_mapper extends CI_Model {
     }
 
     public function insert_file($file){
+        
         //Insert file into database
         $command = $this->db->insert('files', $file);
         return $command;

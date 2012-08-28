@@ -52,13 +52,7 @@ class Files extends CI_Controller {
        //Get the API method specified
        if(isset($_POST["method"])){ $method = strtolower($_POST["method"]); }
        else{
-           if(isset($_POST['photoDescription'])){ //Embarassing hack to get my file uploads to work with the API. TODO - Make this prettier later
-               $this->uploadFile();
-               return;
-           }
-           else{
-              throw new Exception("Must specify an API method");  
-           }
+            throw new Exception("Must specify an API method");  
        } //Change this "Thrown exception" to be an HTTP error message
 
        //Get data sent to be passed to function call
@@ -71,7 +65,7 @@ class Files extends CI_Controller {
                $this->GET($params);
                break;
            case "post":
-               $this->POST($params);
+               $this->POST();
                break;
            case "put":
                $this->PUT($params);
@@ -91,10 +85,15 @@ class Files extends CI_Controller {
     * @param Array $params An array of the params required by this action
     */
     private function GET($params){
-        if(isset($params['FileID'])){
-            $file = $this->files_mapper->get_file($params['FileID']);
-            echo json_encode($file);
-            return;
+        if(isset($params['file'])){
+            $file = json_decode($params['file']);
+            if($params['download'] == true){
+                $this->files_mapper->download_file($file);
+            }
+            else{
+                throw new Exception("This isn't defined yet");
+            }
+            
         }
         else{
             $files = $this->files_mapper->get_files();
@@ -108,46 +107,9 @@ class Files extends CI_Controller {
     * 
     * @param Array $params An array of the params required by this action
     */
-    private function POST($params){
-       var_dump($_POST);
-       var_dump($_FILES);
-       die();
-       $file = json_decode($params['file']);
-       
-       
-       //throw new Exception("POST Request method not allowed on this resource");
-    }
-
-    /**
-    * Function used for PUT action on this resource
-    * 
-    * @param Array $params An array of the params required by this action
-    */
-    private function PUT($params){
-       throw new Exception("PUT Request method not allowed on this resource");
-    }
-
-    /**
-    * Function used for DELETE action on this resource
-    * 
-    * @param Array $params An array of the params required by this action
-    */
-    private function DELETE($params){
-       $file = json_decode($params['file']);
-       $this->files_mapper->delete_file($file);
-       
-       echo json_encode("SUCCESS");
-       
-       //$count = $this->files_mapper->delete_file($params[])
-    }
-    
-    /**
-     * Script for uploading files
-     * 
-     * @return type 
-     */
-    private function uploadFile(){
-        echo "<p>";
+    private function POST(){
+       //Is an upload
+       echo "<p>";
 
         if($_FILES['file']['error'] != 0){
             echo "FILE_UPLOAD_FAILED";
@@ -237,6 +199,29 @@ class Files extends CI_Controller {
         //}
 
         echo "</p>";
+    }
+
+    /**
+    * Function used for PUT action on this resource
+    * 
+    * @param Array $params An array of the params required by this action
+    */
+    private function PUT($params){
+       throw new Exception("PUT Request method not allowed on this resource");
+    }
+
+    /**
+    * Function used for DELETE action on this resource
+    * 
+    * @param Array $params An array of the params required by this action
+    */
+    private function DELETE($params){
+       $file = json_decode($params['file']);
+       $this->files_mapper->delete_file($file);
+       
+       echo json_encode("SUCCESS");
+       
+       //$count = $this->files_mapper->delete_file($params[])
     }
     
     function isValidFileType($fileType){

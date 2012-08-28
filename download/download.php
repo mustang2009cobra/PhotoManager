@@ -1,5 +1,5 @@
 <?php
-require_once("../inc/defines.php");
+define("STORAGE_PATH", "C:/wamp/www/localstorage/photoManagerFiles");
 
 if(!isset($_GET['file'])){
     throw new Exception("file must be sent");
