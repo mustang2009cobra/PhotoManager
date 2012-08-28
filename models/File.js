@@ -1,8 +1,8 @@
 var File = Backbone.Model.extend({
     idAttribute: "FileID",
     
-    initialize: function(){ //Maybe don't need anything here
-        //this.on('remove', this.modelRemoved);
+    initialize: function(){
+        //Nothing here yet
     },
     
     validate: function( attributes ){

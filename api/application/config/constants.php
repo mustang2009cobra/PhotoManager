@@ -37,5 +37,8 @@ define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 
+//Custom constant defines
+define("STORAGE_PATH", "C:/wamp/www/localstorage/photoManagerFiles");
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

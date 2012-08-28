@@ -1,7 +1,5 @@
 <?php
 
-define("STORAGE_PATH", "C:/wamp/www/localstorage/photoManagerFiles");
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -29,6 +27,11 @@ class Files_mapper extends CI_Model {
         return $query->result_array();
     }
     
+    public function get_file($FileID){
+        $query = $this->db->get_where('files', array('FileID' => $FileID));
+        return $query->result_array();
+    }
+    
     /**
      * Deletes the given file from the database and unsets the actual file in the storage folder
      * 
@@ -40,6 +43,12 @@ class Files_mapper extends CI_Model {
         
         //Unset file
         unlink(STORAGE_PATH . "/" . $file->FileID);
+    }
+
+    public function insert_file($file){
+        //Insert file into database
+        $command = $this->db->insert('files', $file);
+        return $command;
     }
 }
 

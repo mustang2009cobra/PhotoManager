@@ -10,6 +10,7 @@ var MyMediaView = Backbone.View.extend({
         "click .addFile": "openAddFileDialog",
         "click #uploadImageButton": "uploadFile",
         'click #deleteFileButton' : "deleteFiles",
+        'click #editMetadataButton' : "editFiles",
         'click .deleteFile' : "showDeleteModal",
         'click .downloadFile' : "downloadSelectedFiles",
         'click .editFile' : "showEditModal",
@@ -134,7 +135,33 @@ var MyMediaView = Backbone.View.extend({
         var editDialogTmpl = _.template(PHOTO_MANAGER.Templates.editModal); //Compile deleteFile dialog
         
         $("#mainModal").html(editDialogTmpl(thisModel.toJSON())); //Set modal content to be file upload dialog
+        
+        //Don't know how to use templating to insert default values in forms, so we're inserting them using JQuery here
+        $("#editFilename").val(thisModel.get('Name'));
+        $("#editDescription").val(thisModel.get('Description'));
+        
         $('#mainModal').modal();
+    },
+    
+    editFiles: function(){
+        var model = this.filesView.collection.get($('.selected').attr('id')); //Get the model we mean to change
+        model.set('Name', $("#editFilename").val());
+        model.set('Description', $("#editDescription").val());
+        
+        $.ajax({ //Grab all file information
+            url: "api/index.php/files",
+            data: {
+                method: "post",
+                params: {
+                    "file" : JSON.stringify(model.attributes)
+                }
+            },
+            success: function(data){
+                var files = $.parseJSON(data);
+                alert("Check yer console");
+                console.log(files);
+            }
+        });
     },
     
     showReplaceModal: function(){

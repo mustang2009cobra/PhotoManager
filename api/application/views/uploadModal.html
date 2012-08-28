@@ -3,15 +3,15 @@
     <h3>Upload Image</h3>
 </div>
 <div class="modal-body">
-    <form id="file_upload_form" method="post" enctype="multipart/form-data" action="upload/upload.php"
+    <form id="file_upload_form" method="post" enctype="multipart/form-data" action="api/index.php/files"
         <p>
-            <label id="photoInput_label" for="photoInput" class=" ">Select an image:</label>
+            <label id="photoInput_label" for="photoInput">Select an image:</label>
             <input class="photoInput" name="file" type="file" />
         </p>
         <p>
+            <label id="photoDescription_label" for="photoDescription">Description</label>
             <textarea id="photoDescription" rows="5" cols="10" name="photoDescription"></textarea>
         </p>
-        <!--<input type="hidden" id="enrollmentidFormField" name="enrollmentid" />-->
         <input id="photo-upload-submit-btn" class="hidden" type="submit" value="photoUploadSubmit">
         <iframe id="upload_target" name="upload_target" src="" style="width:0;height:0;border:0px solid #fff;"></iframe>
     </form>

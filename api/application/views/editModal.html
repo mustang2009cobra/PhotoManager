@@ -3,9 +3,16 @@
     <h3>Edit Image Metadata</h3>
 </div>
 <div class="modal-body">
-    
+    <p>
+        <label id="editFilename_label" for="editFilename">Description</label>
+        <input id="editFilename" class="filename" name="filename" type="text" />
+    </p>
+    <p>
+        <label id="editDescription_label" for="editDescription">Description</label>
+        <textarea id="editDescription" rows="5" cols="10" name="editDescription"></textarea>
+    </p>
 </div>
 <div class="modal-footer">
     <a class="btn" data-dismiss="modal">Close</a>
-    <a class="btn btn-primary editFileBtn">Save</a>
+    <a id="editMetadataButton" class="btn btn-primary">Save</a>
 </div>
