@@ -75,10 +75,27 @@ class Files_mapper extends CI_Model {
     }
 
     public function insert_file($file){
-        
         //Insert file into database
         $command = $this->db->insert('files', $file);
-        return $command;
+        
+        $query = $this->db->get_where('files', array('FileID' => $file['FileID']));
+        $insertedFile = $query->result_array();
+        return $insertedFile;
+    }
+    
+    public function update_file($file){
+        $data = array(
+            'Description' => $file->Description,
+            'Name' => $file->Name,
+            'Modified' => time()
+        );
+        
+        $this->db->where('FileID', $file->FileID);
+        $this->db->update('files', $data);
+        
+        $query = $this->db->get_where('files', array('FileID' => $file->FileID));
+        $updatedFile = $query->result_array();
+        return $updatedFile;
     }
 }
 

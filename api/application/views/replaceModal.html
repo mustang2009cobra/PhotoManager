@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">x</button>
+    <h3>Replace Image</h3>
+</div>
+<div class="modal-body">
+    <form id="file_upload_form" method="post" enctype="multipart/form-data" action="api/index.php/files"
+        <p>
+            <label id="photoInput_label" for="photoInput"><strong>Select an image:</strong></label>
+            <input class="photoInput" name="file" type="file" />
+        </p>
+        <p>
+            <label id="photoDescription_label" for="photoDescription"><strong>Description</strong></label>
+            <textarea id="photoDescription" rows="5" cols="10" name="photoDescription"></textarea>
+        </p>
+        <input id="apiMethodField" type="hidden" name="method" value="post" />
+        <input id="photo-upload-submit-btn" class="hidden" type="submit" value="photoUploadSubmit">
+        <iframe id="upload_target" name="upload_target" src="" style="width:0;height:0;border:0px solid #fff;"></iframe>
+    </form>
+</div>
+<div class="modal-footer">
+    <a class="btn" data-dismiss="modal">Close</a>
+    <a id="replaceImageButton" class="btn btn-primary">Replace</a>
+</div>

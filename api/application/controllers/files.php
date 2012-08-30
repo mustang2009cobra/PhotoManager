@@ -85,21 +85,9 @@ class Files extends CI_Controller {
     * @param Array $params An array of the params required by this action
     */
     private function GET($params){
-        if(isset($params['file'])){
-            $file = json_decode($params['file']);
-            if($params['download'] == true){
-                $this->files_mapper->download_file($file);
-            }
-            else{
-                throw new Exception("This isn't defined yet");
-            }
-            
-        }
-        else{
-            $files = $this->files_mapper->get_files();
-            echo json_encode($files);
-            return;
-        }
+        $files = $this->files_mapper->get_files();
+        echo json_encode($files);
+        return;
     }
 
     /**
@@ -189,13 +177,13 @@ class Files extends CI_Controller {
             $file['Duration'] = $fileInfo['playtime_seconds'];
         }
         
-        $result = $this->files_mapper->insert_file($file);
+        $insertedFile = $this->files_mapper->insert_file($file);
         
         //if($result != 1){
         //    echo "SAVE_TO_DATABASE_FAILED";
         //}
         //else{
-        echo json_encode($this->files_mapper->get_file($file['FileID']));
+        echo json_encode($insertedFile);
         //}
 
         echo "</p>";
@@ -207,7 +195,10 @@ class Files extends CI_Controller {
     * @param Array $params An array of the params required by this action
     */
     private function PUT($params){
-       throw new Exception("PUT Request method not allowed on this resource");
+       $file = json_decode($params['file']);
+       $updated = $this->files_mapper->update_file($file);
+       
+       echo json_encode($updated);
     }
 
     /**
@@ -220,8 +211,6 @@ class Files extends CI_Controller {
        $this->files_mapper->delete_file($file);
        
        echo json_encode("SUCCESS");
-       
-       //$count = $this->files_mapper->delete_file($params[])
     }
     
     function isValidFileType($fileType){
