@@ -1,1 +1,2 @@
--Create edit metadata modal
+-Querying database for users:
+    $this->db->where('username', $username)->where('password', sha1($password))->limit(1)->get('users'); //Limit 1 makes sure the credentials are unique. Sha1 is to encrypt passwords
