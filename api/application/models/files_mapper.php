@@ -97,6 +97,15 @@ class Files_mapper extends CI_Model {
         $updatedFile = $query->result_array();
         return $updatedFile;
     }
+    
+    public function replace_file($updates, $FileID){
+        $this->db->where('FileID', $FileID);
+        $this->db->update('files', $updates);
+        
+        $query = $this->db->get_where('files', array('FileID' => $FileID));
+        $replacedFile = $query->result_array();
+        return $replacedFile;
+    }
 }
 
 ?>

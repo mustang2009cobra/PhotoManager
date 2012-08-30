@@ -105,6 +105,7 @@ var MyMediaView = Backbone.View.extend({
         $("#mainModal").html(replaceDialogTmpl(thisModel.toJSON())); //Set modal content to be replace dialog
         
         $("#photoDescription").val(thisModel.get('Description'));
+        $("#existingFileID").val(thisModel.get('FileID'));
         
         $("#mainModal").modal();
     },
@@ -151,8 +152,47 @@ var MyMediaView = Backbone.View.extend({
     },
     
     replaceFile: function(){
-        alert("Test");
-    }
+        //TODO Hide the submit button so they can't click twice
+        
+        document.getElementById('file_upload_form').target = 'upload_target';
+        document.forms['file_upload_form'].submit();
+        document.getElementById("upload_target").onload = this.replaceDone;
+    },
+    
+    replaceDone: function(){
+        var myMediaThis = Router.myMedia; //Since we're in the context of the iframe, we need to be in our view's context
+        var ret = frames['upload_target'].document.getElementsByTagName("p")[0].innerHTML;
+
+        var thisModel = myMediaThis.filesView.collection.get($(".selected").attr('id'));
+        
+        document.getElementById('file_upload_form').reset();
+
+        switch(ret){
+            case "SAVE_TO_DATABASE_FAILED":
+                showAlert({type: "error", message: "File upload failed: Database error."});
+                break;
+            case "FILE_UPLOAD_FAILED":
+                showAlert({type: "error", message: "File upload failed: File couldn't be uploaded to the server."});
+                break;
+            case "UPLOAD_FAILED":
+                showAlert({type: "error", message: "File upload failed: File upload failed due to a server issue."});
+                break;
+            case "INVALID_FILETYPE":
+                showAlert({type: "error", message: "File upload failed: Incorrect file type. Allowed types: bmp, gif, jpg, png"})
+                break;
+            default: //Success
+                var retData = $.parseJSON(ret);
+                var file = retData[0];
+                thisModel.set(file); //Add new item to collection
+                showAlert({type: "success", message: "The file was uploaded successfully"});
+                break;
+        }
+
+        //TODO Replace the loader with the submit button
+
+        //Close the modal window
+        $('#mainModal').modal('hide');
+    },
     
     deleteFiles: function(){
         var files = $('.selected');

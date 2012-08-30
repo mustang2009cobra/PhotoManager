@@ -98,95 +98,146 @@ class Files extends CI_Controller {
     private function POST(){
        //Is an upload
        echo "<p>";
-
-        if($_FILES['file']['error'] != 0){
+       
+       if($_FILES['file']['error'] != 0){
             echo "FILE_UPLOAD_FAILED";
             echo "</p>";
             return;
-        }
+       }
+       
+       //See if they're uploading the correct filetype (images only)
+       $uploadedFileType = strtolower(substr(strrchr($_FILES['file']['name'],'.'),1));
+       if(!$this->isValidFileType($uploadedFileType)){
+           echo "INVALID_FILETYPE</p>";
+           return;
+       }
+       
+       $tmpFilePath = $_FILES['file']['tmp_name'];
+       $fileName = $_FILES['file']['name'];
+       $mimeType = $_FILES['file']['type'];
+       $fileSize = $_FILES['file']['size'];
+       $description = $_POST['photoDescription'];
 
-        //See if they're uploading the correct filetype (images only)
-        $uploadedFileType = strtolower(substr(strrchr($_FILES['file']['name'],'.'),1));
-        if(!$this->isValidFileType($uploadedFileType)){
-            echo "INVALID_FILETYPE</p>";
-            return;
-        }
+       if(isset($_POST['existingFileID'])){
+           $fileId = $_POST['existingFileID'];
+           $fileType = isset($this->docTypeMap[$mimeType]) ? $this->docTypeMap[$mimeType] : 'miscellaneous';
+           
+           //Set the file path for where the file will be stored (currently all sits in one folder, that will change as we add users)
+           $fileStorageDir = STORAGE_PATH;
+           $filePath = $fileStorageDir. "/" . $fileId;
+           
+           //Move file to the upload folder
+           $moveSuccess = move_uploaded_file($tmpFilePath, $filePath);
+           
+           //Echo back to client about upload success
+           if(!$moveSuccess){
+               echo "UPLOAD_FAILED</p>";
+               return;
+           }
+           
+           $now = time();
+           
+           //Add file to the database
+           $updates = array(
+               'Name' => $fileName,
+               'Modified' => $now,
+               'Description' => $description,
+               'MimeType' => $mimeType,
+               'Type' => $fileType,
+               'Width' => -1,
+               'Height' => -1
+           );
 
-        $tmpFilePath = $_FILES['file']['tmp_name'];
-        $fileName = $_FILES['file']['name'];
-        $mimeType = $_FILES['file']['type'];
-        $fileSize = $_FILES['file']['size'];
+           //Analyze with GetID3
+           $getID3 = new getID3;
+           $fileInfo = $getID3->analyze($filePath);
 
-        $description = $_POST['photoDescription'];
+           if($fileType == 'image'){
+               $updates['Width'] = $fileInfo['video']['resolution_x'];
+               $updates['Height'] = $fileInfo['video']['resolution_y'];
+           }
+           else if($fileType == 'video'){
+               $updates['Width'] = $fileInfo['video']['resolution_x'];
+               $updates['Height'] = $fileInfo['video']['resolution_y'];
+               $updates['Duration'] = $fileInfo['playtime_seconds'];
+           }
+           else if($fileType == 'audio'){
+               $updates['Duration'] = $fileInfo['playtime_seconds'];
+           }
+           
+           $replaced = $this->files_mapper->replace_file($updates, $fileId);
+           
+           echo json_encode($replaced);
+       }
+       else{
+            //Create a guid for the filename
+            $uid = GuidGenerator::Create();
+            $fileId = GuidGenerator::toGuid($uid);
 
-        //Create a guid for the filename
-        $uid = GuidGenerator::Create();
-        $fileId = GuidGenerator::toGuid($uid);
+            $fileType = isset($this->docTypeMap[$mimeType]) ? $this->docTypeMap[$mimeType] : 'miscellaneous';
 
-        $fileType = isset($this->docTypeMap[$mimeType]) ? $this->docTypeMap[$mimeType] : 'miscellaneous';
+            //Set the file path for where the file will be stored (currently all sits in one folder, that will change as we add users)
+            $fileStorageDir = STORAGE_PATH;
+            $filePath = $fileStorageDir. "/" . $fileId;
 
-        //Set the file path for where the file will be stored (currently all sits in one folder, that will change as we add users)
-        $fileStorageDir = STORAGE_PATH;
-        $filePath = $fileStorageDir. "/" . $fileId;
+            //Move file to the upload folder
+            $moveSuccess = move_uploaded_file($tmpFilePath, $filePath);
 
-        //Move file to the upload folder
-        $moveSuccess = move_uploaded_file($tmpFilePath, $filePath);
+            //Echo back to client about upload success
+            if(!$moveSuccess){
+                echo "UPLOAD_FAILED</p>";
+                return;
+            }
 
-        //Echo back to client about upload success
-        if(!$moveSuccess){
-            echo "UPLOAD_FAILED</p>";
-            return;
-        }
+            $now = time();
+            $owner = '757204282';
 
-        $now = time();
-        $owner = '757204282';
+            //Add file to the database
+            $file = array();
+            $file['FileID'] = $fileId;
+            $file['Name'] = $fileName;
+            $file['OwnerID'] = $owner; //TODO - Replace this with real owner information
+            $file['Created'] = $now;
+            $file['CreatedBy'] = $owner;
+            $file['Modified'] = $now;
+            $file['ModifiedBy'] = $owner;
+            $file['Description'] = $description;
+            $file['MimeType'] = $mimeType;
+            $file['Size'] = $fileSize;
+            $file['Type'] = $fileType;
+            $file['Width'] = -1;
+            $file['Height'] = -1;
+            $file['Duration'] = -1;
 
-        //Add file to the database
-        $file = array();
-        $file['FileID'] = $fileId;
-        $file['Name'] = $fileName;
-        $file['OwnerID'] = $owner; //TODO - Replace this with real owner information
-        $file['Created'] = $now;
-        $file['CreatedBy'] = $owner;
-        $file['Modified'] = $now;
-        $file['ModifiedBy'] = $owner;
-        $file['Description'] = $description;
-        $file['MimeType'] = $mimeType;
-        $file['Size'] = $fileSize;
-        $file['Type'] = $fileType;
-        $file['Width'] = -1;
-        $file['Height'] = -1;
-        $file['Duration'] = -1;
+            //Analyze with GetID3
+            $getID3 = new getID3;
+            $fileInfo = $getID3->analyze($filePath);
 
-        /******************************************************************************/
-        /************************ANALYZE WITH GETID3***********************************/
-        /******************************************************************************/
-        $getID3 = new getID3;
-        $fileInfo = $getID3->analyze($filePath);
+            if($fileType == 'image'){
+                $file['Width'] = $fileInfo['video']['resolution_x'];
+                $file['Height'] = $fileInfo['video']['resolution_y'];
+            }
+            else if($fileType == 'video'){
+                $file['Width'] = $fileInfo['video']['resolution_x'];
+                $file['Height'] = $fileInfo['video']['resolution_y'];
+                $file['Duration'] = $fileInfo['playtime_seconds'];
+            }
+            else if($fileType == 'audio'){
+                $file['Duration'] = $fileInfo['playtime_seconds'];
+            }
 
-        if($fileType == 'image'){
-            $file['Width'] = $fileInfo['video']['resolution_x'];
-            $file['Height'] = $fileInfo['video']['resolution_y'];
-        }
-        else if($fileType == 'video'){
-            $file['Width'] = $fileInfo['video']['resolution_x'];
-            $file['Height'] = $fileInfo['video']['resolution_y'];
-            $file['Duration'] = $fileInfo['playtime_seconds'];
-        }
-        else if($fileType == 'audio'){
-            $file['Duration'] = $fileInfo['playtime_seconds'];
-        }
-        
-        $insertedFile = $this->files_mapper->insert_file($file);
-        
-        //if($result != 1){
-        //    echo "SAVE_TO_DATABASE_FAILED";
-        //}
-        //else{
-        echo json_encode($insertedFile);
-        //}
+            $insertedFile = $this->files_mapper->insert_file($file);
 
-        echo "</p>";
+            //if($result != 1){
+            //    echo "SAVE_TO_DATABASE_FAILED";
+            //}
+            //else{
+            echo json_encode($insertedFile);
+            //}
+
+            
+       }
+       echo "</p>";
     }
 
     /**
