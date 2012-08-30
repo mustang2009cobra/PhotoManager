@@ -14,7 +14,11 @@ var FileView = Backbone.View.extend({
     },
 
     render: function(){
-        this.$el.html(this.template(this.model.toJSON()));
+        var modelAttrs = this.model.toJSON();
+        modelAttrs.readableDate = formatDates(modelAttrs.Modified);
+        modelAttrs.readableSize = formatBytes(modelAttrs.Size);
+        
+        this.$el.html(this.template(modelAttrs));
         this.$el.addClass(this.model.get("Type"));
         this.$el.attr("mimeType", this.model.get("MimeType"));
         return this;

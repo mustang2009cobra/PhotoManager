@@ -156,14 +156,6 @@ class Files extends CI_Controller {
                $updates['Width'] = $fileInfo['video']['resolution_x'];
                $updates['Height'] = $fileInfo['video']['resolution_y'];
            }
-           else if($fileType == 'video'){
-               $updates['Width'] = $fileInfo['video']['resolution_x'];
-               $updates['Height'] = $fileInfo['video']['resolution_y'];
-               $updates['Duration'] = $fileInfo['playtime_seconds'];
-           }
-           else if($fileType == 'audio'){
-               $updates['Duration'] = $fileInfo['playtime_seconds'];
-           }
            
            $replaced = $this->files_mapper->replace_file($updates, $fileId);
            
@@ -207,7 +199,6 @@ class Files extends CI_Controller {
             $file['Type'] = $fileType;
             $file['Width'] = -1;
             $file['Height'] = -1;
-            $file['Duration'] = -1;
 
             //Analyze with GetID3
             $getID3 = new getID3;
@@ -216,14 +207,6 @@ class Files extends CI_Controller {
             if($fileType == 'image'){
                 $file['Width'] = $fileInfo['video']['resolution_x'];
                 $file['Height'] = $fileInfo['video']['resolution_y'];
-            }
-            else if($fileType == 'video'){
-                $file['Width'] = $fileInfo['video']['resolution_x'];
-                $file['Height'] = $fileInfo['video']['resolution_y'];
-                $file['Duration'] = $fileInfo['playtime_seconds'];
-            }
-            else if($fileType == 'audio'){
-                $file['Duration'] = $fileInfo['playtime_seconds'];
             }
 
             $insertedFile = $this->files_mapper->insert_file($file);
