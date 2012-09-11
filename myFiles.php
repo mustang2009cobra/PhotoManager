@@ -1,9 +1,10 @@
 <?php
 
-//Check authentication
+//Check session authentication
 
 ?>
 
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -44,8 +45,22 @@
             <span class="icon-bar"></span>
           </a>
           <a class="brand" href="#">Photo Manager</a>
-          <div class="pull-right">
-            <a class="btn" href="#">Sign in</a>
+          <div class="btn-group pull-right">
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="icon-user"></i> dsw88
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Profile</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Sign Out</a></li>
+            </ul>
+          </div>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="#my-media/" id="myFilesPageLink">My Images</a></li>
+              <li><a href="#rate-media/" id="rateFilesPageLink">Rate Images</a></li>
+            </ul>
           </div>
           <!--/.nav-collapse -->
         </div>
@@ -66,41 +81,11 @@
     <!--------------------------MAIN PAGE CONTENT------------------------------->
     <!-------------------------------------------------------------------------->
     <div id="mainContent" class="container-fluid">
-        <div class="hero-unit">
-            <h1>Welcome to Photo Manager</h1>
-            <p>
-                Photo manager is a dynamic web application to manage and share your photos.
-            </p>
-            <p>
-                <a class="btn btn-primary btn-large">Sign up</a>
-            </p>
-        </div>
-        <div class="row">
-            <div class="span4">
-                <h2>Store and manage your photos online</h2>
-                <p>Some text here about how this application is really cool and will change your life</p>
-            </div>
-            <div class="span8">
-                <div id="homeCarousel" class="carousel slide">
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <img src="img/Hydrangeas.jpg">
-                        </div>
-                        <div class="item">
-                            <img src="img/Desert.jpg">
-                        </div>
-                        <div class="item">
-                            <img src="img/Jellyfish.jpg">
-                        </div>
-                    </div>
-                    <a class="carousel-control left" href="#homeCarousel" data-slide="prev">&lsaquo;</a>
-                    <a class="carousel-control right" href="#homeCarousel" data-slide="next">&rsaquo;</a>
-                </div>
-            </div>
-        </div>
+        <!-- PAGE CONTENT WILL BE RENDERED HERE -->
     </div><!--/.fluid-container-->
     
     <!-- Placed at the end of the document so the pages load faster -->
+    <!-- LIBRARIES -->
     <script src="lib/jquery-1.8.0.js"></script>
     <script src="lib/underscore.js"></script>
     <script src="lib/backbone.js"></script>
@@ -116,10 +101,18 @@
     <script src="lib/bootstrap-carousel.js"></script>
     <script src="lib/bootstrap-typeahead.js"></script>
     <script src="js/utils.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function(){
-           //Stuff goes here 
-        });
-    </script>
+    <!-- MODELS -->
+    <script src="models/File.js"></script>
+    <!-- COLLECTIONS -->
+    <script src="collections/Files.js"></script>
+    <!-- VIEWS -->
+    <script src="views/AlertView.js"></script>
+    <script src="views/MyMediaView.js"></script>
+    <script src="views/RateMediaView.js"></script>
+    <script src="views/FileView.js"></script>
+    <script src="views/FilesView.js"></script>
     <!-- MAIN -->
+    <script src="router.js"></script>
+    <script src="main.js"></script>
+  </body>
 </html>
